@@ -1,0 +1,44 @@
+@import "variables";
+@import "mixins";
+@import "viewport-workaround.css";
+
+body {
+  font-family: $font-family;
+  font-size: $primary-font-size;
+  background-color: $brand-color-background;
+  padding-top: 50px;
+}
+
+.container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: $brand-color-background;
+
+  .box {
+    @include center(both);
+    height: 50%;
+    width: 50%;
+    background: white;
+
+    .content {
+      @include center(both);
+      color: $brand-color-lighter;
+      font-family: $font-family;
+      text-align: center;
+      font-weight: bold;
+      font-size: $primary-font-size;
+      padding: 20px;
+      width: 100%;
+      box-sizing: border-box;
+
+      h1 {
+        color: $brand-color-content;
+      }
+
+      .subtitle {
+        margin-top: 40px;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es5",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "strictNullChecks": false
+  },
+  "compileOnSave": false,
+  "buildOnSave": false,
+  "lib": [
+    "dom",
+    "es6"
+  ],
+  "types": [
+    "core-js",
+    "node"
+  ],
+  "exclude": [
+    "node_modules",
+    "config",
+    "dist",
+    "test"
+  ]
+}
