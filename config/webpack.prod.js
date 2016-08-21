@@ -29,7 +29,9 @@ module.exports = validate(webpackMerge(commonConfig, {
             },
             output: {
                 comments: false
-            }
+            },
+            // drop 'console' statements
+            drop_console: true
         })
     ]
 }));

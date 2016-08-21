@@ -1,0 +1,16 @@
+// 1. Helpers (variables, mixins, functions, ...)
+@import
+  "helpers/variables",
+  "helpers/mixins";
+
+// 2. Base stuff (common settings for all components and pages)
+@import
+  "base/viewport-workaround";
+
+// 3. Layout-related settings (header, footes, etc.)
+@import
+  "layout/body";
+
+// 4. Styles for components
+@import "components/main";
+

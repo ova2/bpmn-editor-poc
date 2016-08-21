@@ -15,14 +15,14 @@ var CHUNKS_SORT_ORDER = ['manifest', 'polyfills', 'vendor', 'app'];
 // Common configuration for development and production
 module.exports = {
     entry: {
-        polyfills: './js/polyfills.ts',
-        vendor: './js/vendor.ts',
-        app: './js/app/main.ts'
+        'polyfills': './polyfills.ts',
+        'vendor':    './vendor.ts',
+        'app':       './app.ts'
     },
     output: {
         path: path.join(ROOT, 'dist')
     },
-    context: path.join(ROOT, 'src', 'app'),
+    context: path.join(ROOT, 'src'),
     resolve: {
         extensions: ['', '.ts', '.js', '.json']
     },
@@ -36,7 +36,7 @@ module.exports = {
         }],
         loaders: [{
             test: /\.ts$/,
-            loader: 'ts'
+            loaders: ['ts', 'angular2-template-loader']
         }, {
             test: /\.json$/,
             loader: 'json'
@@ -57,14 +57,11 @@ module.exports = {
             }),
             exclude: /^\_.*\.scss/
         }, {
-            test: /\.(png|jpe?g|gif|svg)$/i,
+            test: /\.(png|jpe?g|gif)$/i,
             loaders: ['file?name=[path][name].[ext]', 'image-webpack']
         }, {
-            test: /\.(ttf|eot)$/,
-            loader: 'file'
-        }, {
-            test: /\.(woff|woff2)$/,
-            loader: 'url?limit=10000&mimetype=application/font-woff'
+            test: /\.(woff2?|ttf|eot|svg)$/,
+            loader: 'url?limit=10000'
         }]
     },
     postcss: function () {
@@ -93,7 +90,7 @@ module.exports = {
         new OccurrenceOrderPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: '../index.html',
+            template: './index.html',
             minify: {
                 removeComments: true
             },

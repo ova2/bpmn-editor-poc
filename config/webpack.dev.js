@@ -18,7 +18,7 @@ module.exports = validate(webpackMerge(commonConfig, {
     plugins: [
         new SourceMapDevToolPlugin({
             filename: '[file].map',
-            exclude: ['bundle.css', 'manifest.js', 'vendor.js']
+            exclude: ['vendor.css', 'app.css', 'manifest.js', 'polyfills.js', 'vendor.js']
         }),
         new OpenBrowserPlugin({url: 'http://localhost:3000'})
     ],

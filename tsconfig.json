@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",
+    "module": "es6",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noImplicitAny": false,
@@ -11,13 +11,13 @@
   },
   "compileOnSave": false,
   "buildOnSave": false,
-  "lib": [
-    "dom",
-    "es6"
-  ],
   "types": [
     "core-js",
     "node"
+  ],
+  "files": [
+    "node_modules/@types/core-js/index.d.ts",
+    "node_modules/@types/node/index.d.ts"
   ],
   "exclude": [
     "node_modules",
