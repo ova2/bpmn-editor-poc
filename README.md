@@ -22,7 +22,13 @@ This command generates source maps for debugging purpose. Type the next command 
 npm run server:dev
 ```
 
-Alternative, it is possible to build the project for development and starts the web application in just one command.
+Alternative, it is possible to build the project for development and starts the web application in just one command:
+
+```sh
+npm start
+```
+
+or
 
 ```sh
 npm run build:serve
