@@ -37,6 +37,7 @@
         "singleline": "never"
       }
     ],
+    "member-access": false,
 
     "directive-selector-name": [
       true,

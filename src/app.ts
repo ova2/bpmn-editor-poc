@@ -2,6 +2,6 @@
 import "./assets/css/app.scss";
 
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
-import {MainModule} from "./app/main.module";
+import {AppModule} from "./app/app.module";
 
-platformBrowserDynamic().bootstrapModule(MainModule);
+platformBrowserDynamic().bootstrapModule(AppModule);
