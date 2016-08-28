@@ -5,6 +5,7 @@ import {FormsModule} from "@angular/forms";
 import {AppComponent} from "./app.component";
 import {MainComponent}  from "./main/main.component";
 import {ConfiguredRoutingModule} from "./app.routing";
+import {LayoutComponent} from "./shared/layout.component";
 import {SvgMasterComponent} from "./svg/svg-master.component";
 import {CanvasMasterComponent} from "./canvas/canvas-master.component";
 
@@ -17,6 +18,7 @@ import {CanvasMasterComponent} from "./canvas/canvas-master.component";
     declarations: [
         AppComponent,
         MainComponent,
+        LayoutComponent,
         SvgMasterComponent,
         CanvasMasterComponent
     ],

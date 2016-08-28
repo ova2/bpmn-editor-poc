@@ -11,6 +11,6 @@ export class SvgMasterComponent implements OnInit {
     }
 
     ngOnInit() {
-        // TODO
+        // fetch remote data
     }
 }

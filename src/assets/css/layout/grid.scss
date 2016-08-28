@@ -1,0 +1,25 @@
+@import '../helpers/mixins';
+
+.container-fluid {
+  margin-top: 60px;
+}
+
+.col-drawing-area {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 10px;
+}
+
+@include respond-to('small') {
+  .col-drawing-area {
+    margin-top: inherit;
+  }
+}
+
+@include respond-to('medium') {
+  .col-drawing-area {
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-top: inherit;
+  }
+}

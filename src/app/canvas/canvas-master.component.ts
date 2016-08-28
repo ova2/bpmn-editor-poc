@@ -11,6 +11,6 @@ export class CanvasMasterComponent implements OnInit {
     }
 
     ngOnInit() {
-        // TODO
+        // fetch remote data
     }
 }

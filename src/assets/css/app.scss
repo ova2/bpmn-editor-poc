@@ -5,13 +5,16 @@
 
 // 2. Base stuff (common settings for all components and pages)
 @import
-  "base/viewport-workaround";
+  "base/viewport-workaround",
+  "base/body";
 
-// 3. Layout-related settings (header, footes, etc.)
+// 3. Layout-related settings (grid, header, footes, etc.)
 @import
-  "layout/body";
+  "layout/grid",
+  "layout/panel";
 
 // 4. Styles for components
-@import "components/app";
-@import "components/main";
+@import
+  "components/app",
+  "components/main";
 
