@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <bpm-toolbar></bpm-toolbar>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 col-md-push-3 col-drawing-area">
+            <div class="panel panel-default panel-shadow drawing-area">
+                <ng-content select=".bpm-drawing-area"></ng-content>
+            </div>
+        </div>
+        <div class="col-md-2 col-md-push-3">
+            <div class="row">
+                <div class="col-xs-12">
+                    <bpm-palette></bpm-palette>
+                </div>
+                <div class="col-xs-12">
+                    <bpm-shapes></bpm-shapes>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-md-pull-9">
+            <bpm-properties></bpm-properties>
+        </div>
+    </div>
+</div>

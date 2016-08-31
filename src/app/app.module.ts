@@ -5,9 +5,14 @@ import {FormsModule} from "@angular/forms";
 import {AppComponent} from "./app.component";
 import {MainComponent}  from "./main/main.component";
 import {ConfiguredRoutingModule} from "./app.routing";
-import {LayoutComponent} from "./shared/layout.component";
-import {SvgMasterComponent} from "./svg/svg-master.component";
-import {CanvasMasterComponent} from "./canvas/canvas-master.component";
+import {LayoutComponent} from "./layout/layout.component";
+import {SvgMasterComponent} from "./drawing/svg/svg-master.component";
+import {CanvasMasterComponent} from "./drawing/canvas/canvas-master.component";
+import {PanelComponent} from "./panel/panel.component";
+import {PaletteComponent} from "./panel/palette/palette.component";
+import {PropertiesComponent} from "./panel/properties/properties.component";
+import {ShapesComponent} from "./panel/shapes/shapes.component";
+import {ToolbarComponent} from "./panel/toolbar/toolbar.component";
 
 @NgModule({
     imports: [
@@ -18,6 +23,11 @@ import {CanvasMasterComponent} from "./canvas/canvas-master.component";
     declarations: [
         AppComponent,
         MainComponent,
+        PanelComponent,
+        ToolbarComponent,
+        PaletteComponent,
+        PropertiesComponent,
+        ShapesComponent,
         LayoutComponent,
         SvgMasterComponent,
         CanvasMasterComponent

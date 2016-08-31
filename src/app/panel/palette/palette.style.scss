@@ -1,0 +1,13 @@
+.palette {
+  .palette-item {
+    
+    &.select {
+      margin-bottom: 10px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: blue;
+    }
+  }
+}

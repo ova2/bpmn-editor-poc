@@ -24,8 +24,12 @@ module.exports = validate(webpackMerge(commonConfig, {
         }),
         new UglifyJsPlugin({
             minimize: true,
+            mangle: {
+                screw_ie8: true
+            },
             compress: {
-                warnings: true
+                warnings: true,
+                screw_ie8 : true
             },
             output: {
                 comments: false
