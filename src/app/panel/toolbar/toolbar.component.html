@@ -1,5 +1,13 @@
 <bpm-panel>
-    <span class="bpm-panel-body">
-        Toolbar with icons and commands "delete", "zoom-in", "zoom-out", etc.
+    <span data-panel-body>
+        <a class="btn btn-danger" (click)="onDelete($event)" aria-label="Delete selected shape">
+          <i class="fa fa-trash-o"></i>
+        </a>
+        <a class="btn btn-primary" (click)="onZoomIn($event)" aria-label="Zoom in the drawing area">
+          <i class="fa fa-search-plus"></i>
+        </a>
+        <a class="btn btn-primary" (click)="onZoomOut($event)" aria-label="Zoom out the drawing area">
+          <i class="fa fa-search-minus"></i>
+        </a>        
     </span>
 </bpm-panel>
