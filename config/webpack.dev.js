@@ -4,7 +4,6 @@ var validate = require('webpack-validator');
 var commonConfig = require('./webpack.common.js');
 
 var SourceMapDevToolPlugin = require('webpack/lib/SourceMapDevToolPlugin');
-var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = validate(webpackMerge(commonConfig, {
     output: {
@@ -19,8 +18,7 @@ module.exports = validate(webpackMerge(commonConfig, {
         new SourceMapDevToolPlugin({
             filename: '[file].map',
             exclude: ['vendor.css', 'app.css', 'manifest.js', 'polyfills.js', 'vendor.js']
-        }),
-        new OpenBrowserPlugin({url: 'http://localhost:3000'})
+        })
     ],
     devServer: {
         host: 'localhost',
