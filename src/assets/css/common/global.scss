@@ -5,6 +5,10 @@ body {
   background-color: $brand-color-background;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .pageloader {
   margin: 200px auto;
   width: 40px;

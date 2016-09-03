@@ -1,16 +1,16 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12 col-toolbar">
             <bpm-toolbar></bpm-toolbar>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-7 col-md-push-3 col-drawing-area">
+        <div class="col-md-8 col-md-push-2 col-drawing-area">
             <div class="panel panel-default panel-shadow drawing-area">
                 <ng-content select=".bpm-drawing-area"></ng-content>
             </div>
         </div>
-        <div class="col-md-2 col-md-push-3">
+        <div class="col-md-2 col-md-push-2">
             <div class="row">
                 <div class="col-xs-12">
                     <bpm-palette></bpm-palette>
@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-md-pull-9">
+        <div class="col-md-2 col-md-pull-10">
             <bpm-properties></bpm-properties>
         </div>
     </div>
