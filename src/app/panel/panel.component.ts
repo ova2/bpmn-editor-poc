@@ -1,15 +1,15 @@
-import {Component, ViewChild, ElementRef, AfterViewInit} from "@angular/core";
+import {Component, ViewChild, ElementRef, AfterContentInit} from "@angular/core";
 
 @Component({
     selector: "bpm-panel",
     templateUrl: "panel.component.html"
 })
-export class PanelComponent implements AfterViewInit {
+export class PanelComponent implements AfterContentInit {
 
     @ViewChild("phref")
     phref: ElementRef;
 
-    ngAfterViewInit() {
+    ngAfterContentInit() {
         let hDiv: HTMLDivElement = this.phref.nativeElement;
         if (hDiv.childElementCount === 0) {
             // header is empty ==> remove the header div

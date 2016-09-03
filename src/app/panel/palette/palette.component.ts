@@ -13,4 +13,8 @@ export class PaletteComponent {
     onClick(mode: string) {
         this.mode = PaletteMode[mode];
     }
+
+    isSelected(name: string): boolean {
+        return this.mode === void 0 ? false : PaletteMode[this.mode] === name;
+    }
 }

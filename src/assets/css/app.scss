@@ -3,8 +3,9 @@
 @import "helpers/mixins";
 
 // 2. Base stuff (common settings for all components and pages)
-@import "base/viewport-workaround";
-@import "base/body";
+@import "common/viewport-workaround";
+@import "common/body";
+@import "common/components";
 
 // 3. Styles for components
 @import "../../app/app.style";
@@ -12,6 +13,6 @@
 @import "../../app/main/main.style";
 @import "../../app/layout/layout.style";
 @import "../../app/panel/panel.style";
-@import "../../app/panel/palette/palette.style";
+
 
 
