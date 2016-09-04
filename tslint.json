@@ -38,6 +38,9 @@
       }
     ],
     "member-access": false,
+    "no-bitwise": false,
+    "jsdoc-format": true,
+    "max-line-length": [true, 140],
 
     "directive-selector-name": [
       true,
