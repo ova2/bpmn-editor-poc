@@ -43,8 +43,7 @@ import {CanvasDirective} from "./drawing/canvas/canvas.directive";
         ShapesComponent,
         LayoutComponent,
         SvgDrawingComponent,
-        CanvasDrawingComponent,
-        CanvasDirective
+        CanvasDrawingComponent
     ],
     providers: [
         DataLoadService,

@@ -11,18 +11,9 @@ export class CanvasGraphics extends AbstractGraphics
 
 		if( this.canvas != null )
 		{
-
-			this.canvas.addEventListener("load",function (event)
-			{
-				console.log("LOAD");
-			});
-
 			this.context2D = this.canvas.getContext("2d");
-
-			this.canvas.addEventListener("click", function (event)
-			{
-				console.log("CLICK");
-			});
+			this.context2D.fillStyle = "#EEEEEE";
+			this.context2D.fillRect( 0,0, canvas.width, canvas.height);
 		}
 		else
 		{
