@@ -12,6 +12,8 @@ export class CanvasDrawingService extends DrawingService
 	{
 		let canvas: HTMLCanvasElement = <HTMLCanvasElement> element;
 		this.context2D = canvas.getContext("2d");
+		this.context2D.fillStyle = "#CCCCCC";
+		this.context2D.fillRect(0,0,canvas.width,canvas.height);
 	}
 
 	getSurface(): CanvasRenderingContext2D

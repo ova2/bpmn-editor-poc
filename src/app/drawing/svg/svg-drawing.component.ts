@@ -1,4 +1,5 @@
 import {
+	Component,
 	ViewChild,
 	ElementRef,
 	AfterViewInit
@@ -6,6 +7,13 @@ import {
 
 import {DrawingService} from "../common/api/drawing.service";
 import {DataLoadService} from "../../data-access/dataload.service";
+import {SvgDrawingService} from "./svg-drawing.service";
+
+@Component({
+	selector: "bpm-svg-drawing",
+	templateUrl: "svg-drawing.component.html",
+	providers: [{provide: DrawingService, useClass: SvgDrawingService}]
+})
 
 export class SvgDrawingComponent implements AfterViewInit
 {
