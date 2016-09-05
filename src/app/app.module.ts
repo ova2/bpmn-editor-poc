@@ -18,6 +18,8 @@ import {PaletteComponent} from "./panel/palette/palette.component";
 import {PropertiesComponent} from "./panel/properties/properties.component";
 import {ShapesComponent} from "./panel/shapes/shapes.component";
 import {ToolbarComponent} from "./panel/toolbar/toolbar.component";
+import {CanvasDirective} from "./drawing/canvas/canvas.directive";
+
 
 @NgModule({
     imports: [
@@ -37,7 +39,8 @@ import {ToolbarComponent} from "./panel/toolbar/toolbar.component";
         ShapesComponent,
         LayoutComponent,
         SvgMasterComponent,
-        CanvasMasterComponent
+        CanvasMasterComponent,
+        CanvasDirective
     ],
     bootstrap: [AppComponent]
 })

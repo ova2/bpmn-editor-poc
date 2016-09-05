@@ -6,14 +6,16 @@ var commonConfig = require('./webpack.common.js');
 var SourceMapDevToolPlugin = require('webpack/lib/SourceMapDevToolPlugin');
 
 module.exports = validate(webpackMerge(commonConfig, {
-    output: {
+    output:
+    {
         filename: '[name].js',
         chunkFilename: '[name].js'
     },
-    tslint: {
-        emitErrors: false,
-        failOnHint: false
-    },
+//    tslint:
+//    {
+//        emitErrors: false,
+//        failOnHint: false
+//    },
     plugins: [
         new SourceMapDevToolPlugin({
             filename: '[file].map',
