@@ -5,13 +5,13 @@ import {DrawingService} from "../common/api/drawing.service";
 @Injectable()
 export class SvgDrawingService extends DrawingService {
 
-    private snap: Snap.Paper;
+    //private snap: Snap.Paper;
 
     initSurface(element: Element): void {
-        this.snap = Snap(<SVGElement> element);
+        //this.snap = Snap(<SVGElement> element);
     }
 
-    getSurface(): Snap.Paper {
-        return this.snap;
+    getSurface(): any {
+        //return this.snap;
     }
 }
