@@ -1,6 +1,5 @@
-import {Component} from "@angular/core";
+import {Component, ElementRef, AfterViewInit, ViewChild} from "@angular/core";
 
-import {BaseDrawingComponent} from "../common/base-drawing.component";
 import {DrawingService} from "../common/api/drawing.service";
 import {SvgDrawingService} from "./svg-drawing.service";
 import {DataLoadService} from "../../data-access/dataload.service";
@@ -10,9 +9,27 @@ import {DataLoadService} from "../../data-access/dataload.service";
     templateUrl: "svg-drawing.component.html",
     providers: [{provide: DrawingService, useClass: SvgDrawingService}]
 })
-export class SvgDrawingComponent extends BaseDrawingComponent {
+export class SvgDrawingComponent implements AfterViewInit {
+
+    @ViewChild("surface")
+    surface: ElementRef;
+
+    private drawingService: DrawingService;
+
+    private dataLoadService: DataLoadService;
 
     constructor(drawingService: DrawingService, dataLoadService: DataLoadService) {
-        super(drawingService, dataLoadService);
+        this.drawingService = drawingService;
+        this.dataLoadService = dataLoadService;
+    }
+
+    ngAfterViewInit() {
+        let element: Element = this.surface.nativeElement;
+        this.drawingService.initSurface(element);
+
+        this.dataLoadService.getPayload().subscribe(
+            shapes => this.drawingService.draw(shapes),
+            error => console.log(error)
+        );
     }
 }

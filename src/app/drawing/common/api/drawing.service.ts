@@ -10,9 +10,10 @@ export abstract class DrawingService {
 
     draw(shapes: ShapeElement[]): void {
         // iterate over merged shapes and invoke draw() on every shape
-        for (let shape of shapes) {
+        // for (let shape of shapes) {
+            // TODO implement all shapes
             // TODO children should be iterated recursive too
-            shape.draw(this.getSurface());
-        }
+            // shape.draw(this.getSurface());
+        // }
     }
 }
