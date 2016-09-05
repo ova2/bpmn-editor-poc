@@ -1,51 +1,39 @@
-
 import {
-	Directive,
-	ElementRef,
-	Renderer,
-	HostListener
+    Directive,
+    ElementRef,
+    Renderer,
+    HostListener
 } from "@angular/core";
 import {CanvasGraphics} from "../../inspire/develop/canvas/CanvasGraphics";
 
+@Directive({selector: "[bpmCanvas]"})
+export class CanvasDirective {
 
-@Directive({ selector: '[myCanvas]' })
-export class CanvasDirective
-{
+    // Graphics
+    private graphics: CanvasGraphics;
 
-	constructor( el: ElementRef, renderer: Renderer)
-	{
-		let htmlCanvasElement:HTMLCanvasElement = el.nativeElement;
+    constructor(el: ElementRef, renderer: Renderer) {
+        let htmlCanvasElement: HTMLCanvasElement = el.nativeElement;
 
-		console.log("Size: " + htmlCanvasElement.width + " " + htmlCanvasElement.height);
-		this.graphics = new CanvasGraphics( el.nativeElement);
+        console.log("Size: " + htmlCanvasElement.width + " " + htmlCanvasElement.height);
+        this.graphics = new CanvasGraphics(el.nativeElement);
 
-	}
+    }
 
-	@HostListener('mouseenter') onMouseEnter()
-	{
-		console.log("Mouse Enter")
-	}
+    @HostListener("mouseenter") onMouseEnter() {
+        console.log("Mouse Enter");
+    }
 
-	@HostListener('mouseleave') onMouseLeave()
-	{
-		console.log("Mouse Leave")
-	}
+    @HostListener("mouseleave") onMouseLeave() {
+        console.log("Mouse Leave");
+    }
 
-	@HostListener('mousemove') onMouseMove()
-	{
-		console.log("Mouse Move")
-	}
+    @HostListener("mousemove") onMouseMove() {
+        console.log("Mouse Move");
+    }
 
-	@HostListener('click') onMouseClick()
-	{
-		console.log("Mouse Click")
-	}
-
-
-
-
-
-	// Graphics
-	private graphics: CanvasGraphics;
+    @HostListener("click") onMouseClick() {
+        console.log("Mouse Click");
+    }
 }
 

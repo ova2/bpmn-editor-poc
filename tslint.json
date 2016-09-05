@@ -11,7 +11,7 @@
     ],
     "brace-style": [
       true,
-      "allman"
+      "1tbs"
     ],
     "no-duplicate-case": true,
     "no-extra-boolean-cast": true,
