@@ -22,6 +22,8 @@ import {DataLoadService} from "./data-access/dataload.service";
 import {DrawingService} from "./drawing/common/api/drawing.service";
 import {SvgDrawingService} from "./drawing/svg/svg-drawing.service";
 import {CanvasDrawingService} from "./drawing/canvas/canvas-drawing.service";
+import {CanvasDirective} from "./drawing/canvas/canvas.directive";
+
 
 @NgModule({
     imports: [
@@ -41,7 +43,8 @@ import {CanvasDrawingService} from "./drawing/canvas/canvas-drawing.service";
         ShapesComponent,
         LayoutComponent,
         SvgDrawingComponent,
-        CanvasDrawingComponent
+        CanvasDrawingComponent,
+        CanvasDirective
     ],
     providers: [
         DataLoadService,

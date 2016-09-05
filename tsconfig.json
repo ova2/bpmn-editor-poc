@@ -6,11 +6,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noImplicitAny": false,
+    "strictNullChecks": false,
     "sourceMap": true,
-    "strictNullChecks": false
+    "inlineSources": true
   },
-  "compileOnSave": false,
-  "buildOnSave": false,
+  "compileOnSave": true,
+  "buildOnSave": true,
   "types": [
     "core-js",
     "node",

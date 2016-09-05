@@ -1,8 +1,13 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 
 @Component({
     selector: "bpm-main",
     templateUrl: "main.template.html"
 })
-export class MainComponent {
+export class MainComponent implements OnInit
+{
+    ngOnInit()
+    {
+        console.log("Init MainComponent");
+    }
 }
