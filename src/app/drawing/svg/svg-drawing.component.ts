@@ -7,7 +7,7 @@ import {
 import {DrawingService} from "../common/api/drawing.service";
 import {DataLoadService} from "../../data-access/dataload.service";
 
-export abstract class SvgDrawingComponent implements AfterViewInit
+export class SvgDrawingComponent implements AfterViewInit
 {
 
 	@ViewChild("surface") surface: ElementRef;
