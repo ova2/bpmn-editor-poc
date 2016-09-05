@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
+import {Component, ElementRef, AfterViewInit, ViewChild} from "@angular/core";
 
-import {BaseDrawingComponent} from "../common/base-drawing.component";
+
 import {DrawingService} from "../common/api/drawing.service";
 import {CanvasDrawingService} from "./canvas-drawing.service";
 import {DataLoadService} from "../../data-access/dataload.service";
@@ -10,11 +10,28 @@ import {DataLoadService} from "../../data-access/dataload.service";
 	templateUrl: "canvas-drawing.component.html",
 	providers: [{provide: DrawingService, useClass: CanvasDrawingService}]
 })
-export class CanvasDrawingComponent extends BaseDrawingComponent
+export class CanvasDrawingComponent implements AfterViewInit
 {
 
-	constructor(drawingService: DrawingService, dataLoadService: DataLoadService)
-	{
-		super(drawingService, dataLoadService);
+	@ViewChild("surface")
+	surface: ElementRef;
+
+	private drawingService: DrawingService;
+
+	private dataLoadService: DataLoadService;
+
+	constructor(drawingService: DrawingService, dataLoadService: DataLoadService) {
+		this.drawingService = drawingService;
+		this.dataLoadService = dataLoadService;
+	}
+
+	ngAfterViewInit() {
+		let element: Element = this.surface.nativeElement;
+		this.drawingService.initSurface(element);
+
+		this.dataLoadService.getPayload().subscribe(
+			shapes => this.drawingService.draw(shapes),
+			error => console.log(error)
+		);
 	}
 }

@@ -4,10 +4,10 @@ import {
 	AfterViewInit
 } from "@angular/core";
 
-import {DrawingService} from "./api/drawing.service";
+import {DrawingService} from "../common/api/drawing.service";
 import {DataLoadService} from "../../data-access/dataload.service";
 
-export abstract class BaseDrawingComponent implements AfterViewInit
+export abstract class SvgDrawingComponent implements AfterViewInit
 {
 
 	@ViewChild("surface") surface: ElementRef;
