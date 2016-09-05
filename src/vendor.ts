@@ -16,4 +16,5 @@ import "rxjs/add/observable/throw";
 import "rxjs/add/operator/catch";
 
 // Other vendors
-// ...
+import "snapsvg";
+import "snap.svg.zpd";

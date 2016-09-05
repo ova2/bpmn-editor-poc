@@ -1,8 +1,8 @@
 import {ModuleWithProviders} from "@angular/core";
 import {Routes, RouterModule} from "@angular/router";
 import {MainComponent} from "./main/main.component";
-import {SvgMasterComponent} from "./drawing/svg/svg-master.component";
-import {CanvasMasterComponent} from "./drawing/canvas/canvas-master.component";
+import {SvgDrawingComponent} from "./drawing/svg/svg-drawing.component";
+import {CanvasDrawingComponent} from "./drawing/canvas/canvas-drawing.component";
 
 const APP_ROUTES: Routes = [
     {
@@ -16,11 +16,11 @@ const APP_ROUTES: Routes = [
     },
     {
         path: "svg",
-        component: SvgMasterComponent
+        component: SvgDrawingComponent
     },
     {
         path: "canvas",
-        component: CanvasMasterComponent
+        component: CanvasDrawingComponent
     }
 ];
 

@@ -13,11 +13,13 @@
   "buildOnSave": false,
   "types": [
     "core-js",
-    "node"
+    "node",
+    "snapsvg"
   ],
   "files": [
     "node_modules/@types/core-js/index.d.ts",
-    "node_modules/@types/node/index.d.ts"
+    "node_modules/@types/node/index.d.ts",
+    "node_modules/@types/snapsvg/index.d.ts"
   ],
   "exclude": [
     "node_modules",
