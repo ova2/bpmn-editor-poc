@@ -1,8 +1,10 @@
 
 import {ShapeElement} from "./ShapeElement";
-import {UId} from "./util/UId";
-import {Utils} from "./util/Utils";
+import {UId} from "../../../inspire/develop/util/UId";
+import {Utils} from "../../../inspire/develop/util/Utils";
 import {NamedElement} from "./NamedElement";
+import {JsonObject, JsonMember, TypedJSON} from "../typed-json";
+@JsonObject
 export class NodeElement extends NamedElement
 {
 
@@ -63,11 +65,14 @@ export class NodeElement extends NamedElement
     }
 
     // our ShapeElements List
+    @JsonMember
     private shapeElements:Array<ShapeElement> = new Array<ShapeElement>();
 
     // ChildList
+    @JsonMember
     private childList: Array<NodeElement> = new Array<NodeElement>();
 
     // Parent Element
+    @JsonMember
     private parent: NodeElement;
 }

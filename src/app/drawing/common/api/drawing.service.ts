@@ -1,19 +1,15 @@
 import {Injectable} from "@angular/core";
-import {ShapeElement} from "../model/shape-element";
+import {Resource} from "../model/resource/Resource";
+import {Shape} from "../model/shape/Shape";
+
 
 @Injectable()
-export abstract class DrawingService {
+export abstract class DrawingService
+{
 
-    abstract initSurface(element: Element): void;
-    
-    abstract getSurface(): any;
+	public abstract initSurface(element: Element): void;
 
-    draw(shapes: ShapeElement[]): void {
-        // iterate over merged shapes and invoke draw() on every shape
-        // for (let shape of shapes) {
-            // TODO implement all shapes
-            // TODO children should be iterated recursive too
-            // shape.draw(this.getSurface());
-        // }
-    }
+	public abstract getSurface(): any;
+
+	public abstract draw(): void;
 }

@@ -1,4 +1,4 @@
-import {UId} from "./util/UId";
+import {UId} from "../../../inspire/develop/util/UId";
 export class NamedElement
 {
 	constructor(name:string, uId?:string)

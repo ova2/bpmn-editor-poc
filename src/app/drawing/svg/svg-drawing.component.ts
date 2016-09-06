@@ -35,6 +35,6 @@ export class SvgDrawingComponent implements AfterViewInit
 		let element: Element = this.surface.nativeElement;
 		this.drawingService.initSurface(element);
 
-		this.dataLoadService.getPayload().subscribe(shapes => this.drawingService.draw(shapes), error => console.log(error));
+		//this.dataLoadService.getPayload().subscribe(shapes => this.drawingService.draw(shapes), error => console.log(error));
 	}
 }

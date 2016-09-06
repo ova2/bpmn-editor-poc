@@ -14,4 +14,10 @@ export class SvgDrawingService extends DrawingService {
     getSurface(): any {
         //return this.snap;
     }
+
+
+    public draw(): void
+    {
+
+    }
 }
