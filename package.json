@@ -58,8 +58,8 @@
     "build:dev": "webpack --config config/webpack.dev.js --progress --display-error-details",
     "prebuild:prod": "npm run prebuild:dev",
     "build:prod": "webpack --config config/webpack.prod.js --progress --display-error-details",
+    "preserver:dev": "npm run prebuild:dev",
     "server:dev": "webpack-dev-server --config config/webpack.dev.js --inline --open",
-    "build:serve": "npm run build:dev && npm run server:dev",
-    "start": "npm run build:serve"
+    "start": "npm run server:dev"
   }
 }

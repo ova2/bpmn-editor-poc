@@ -28,12 +28,6 @@ Alternative, it is possible to build the project for development and starts the 
 npm start
 ```
 
-or
-
-```sh
-npm run build:serve
-```
-
 The application is available at [http://localhost:3000/](http://localhost:3000/). All files are watched continuously and the application gets updated in the browser when you make any changes.
 
 The following command builds the project for production. The delivered project can be found below the `dist` folder.
