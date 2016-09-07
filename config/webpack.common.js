@@ -10,19 +10,20 @@ var HashedModuleIdsPlugin = require('webpack/lib/HashedModuleIdsPlugin');
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 
 var ROOT = path.resolve(__dirname, '..');
-var CHUNKS_SORT_ORDER = ['manifest', 'polyfills', 'vendor', 'app'];
+var CHUNKS_SORT_ORDER = ['manifest', 'globals', 'app'];
 
 // Common configuration for development and production
 module.exports = {
     entry: {
-        'polyfills': './polyfills.ts',
-        'vendor':    './vendor.ts',
-        'app':       './app.ts'
+        'globals': './globals.ts',
+        'app':     './app.ts'
     },
     output: {
         path: path.join(ROOT, 'dist')
     },
     context: path.join(ROOT, 'src'),
+    // See https://medium.com/webpack/harnessing-the-power-of-webpack-2cd0e20ff1bf#.q9do1u54o
+    recordsPath: path.join(ROOT, 'config', 'webpack-records.json'),
     resolve: {
         extensions: ['', '.ts', '.js', '.json']
     },
@@ -36,7 +37,7 @@ module.exports = {
         }],
         loaders: [{
             test: /\.ts$/,
-            loaders: ['ts', 'angular2-template-loader']
+            loaders: ['awesome-typescript-loader', 'angular2-template-loader']
         }, {
             test: /\.json$/,
             loader: 'json'
@@ -74,10 +75,10 @@ module.exports = {
         //     jQuery: "jquery"
         // }),
         new CommonsChunkPlugin({
-            name: ['app', 'vendor', 'polyfills']
+            name: ['app', 'globals']
         }),
-        // move webpack runtime code to a separate manifest file to support long-term caching.
-        // this will avoid hash recreation for vendor files when they are not changed.
+        // move webpack runtime code to a separate manifest file in order to support long-term caching.
+        // this will avoid hash recreation for other files when only application files are changed.
         new CommonsChunkPlugin({
             name: 'manifest',
             minChunks: Infinity

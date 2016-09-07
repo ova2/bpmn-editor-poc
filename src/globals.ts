@@ -1,3 +1,6 @@
+// Files which are not participate in tree-shaking.
+// See http://blog.rangle.io/optimize-your-angular2-application-with-tree-shaking/
+
 // Added parts of ES6 which are necessary for the project or the browser support requirements.
 import "core-js/es6/symbol";
 import "core-js/es6/object";
@@ -17,4 +20,6 @@ import "core-js/es6/weak-set";
 import "core-js/es6/typed";
 import "core-js/es6/reflect";
 import "core-js/es7/reflect";
+
 import "zone.js/dist/zone";
+import "reflect-metadata";

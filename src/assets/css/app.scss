@@ -1,13 +1,17 @@
-// 1. Helpers (variables, mixins, functions, ...)
+// 1. Vendor files
+@import "~font-awesome/css/font-awesome.css";
+@import "vendor/bootstrap-custom";
+
+// 2. Helpers (variables, mixins, functions, ...)
 @import "helpers/variables";
 @import "helpers/mixins";
 
-// 2. Base stuff (common settings for all components and pages)
+// 3. Base stuff (common settings for all components and pages)
 @import "common/viewport-workaround";
 @import "common/global";
 @import "common/components";
 
-// 3. Styles for components
+// 4. Styles for components
 @import "../../app/app.style";
 @import "../../app/main/main.style";
 @import "../../app/main/main.style";

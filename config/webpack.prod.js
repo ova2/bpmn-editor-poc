@@ -23,18 +23,19 @@ module.exports = validate(webpackMerge(commonConfig, {
             filename: "[name].[chunkhash].css"
         }),
         new UglifyJsPlugin({
-            minimize: true,
-            mangle: {
+            compress: {
+                dead_code: true,
+                unused: true,
+                warnings: false,
                 screw_ie8: true
             },
-            compress: {
-                warnings: true,
-                screw_ie8 : true
+            mangle: {
+                screw_ie8: true,
+                keep_fnames: true
             },
             output: {
                 comments: false
             },
-            // drop 'console' statements
             drop_console: true
         })
     ]

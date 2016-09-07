@@ -11,7 +11,7 @@
     "inlineSources": true
   },
   "compileOnSave": true,
-  "buildOnSave": true,
+  "buildOnSave": false,
   "types": [
     "core-js",
     "node"
