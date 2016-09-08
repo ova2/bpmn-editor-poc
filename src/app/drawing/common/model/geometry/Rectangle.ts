@@ -1,7 +1,5 @@
 import {IShape} from "./IShape";
 import {Path} from "./Path";
-import {JsonObject,JsonMember,TypedJSON} from "typedjson/js";
-@JsonObject
 export class Rectangle implements IShape
 {
 
@@ -24,12 +22,12 @@ export class Rectangle implements IShape
 		return path;
 	}
 
-	@JsonMember
+
 	private x: number;
-	@JsonMember
+
 	private y: number;
-	@JsonMember
+
 	private width: number;
-	@JsonMember
+
 	private height: number;
 }

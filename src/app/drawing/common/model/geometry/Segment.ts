@@ -27,6 +27,16 @@ export class Segment
 		}
 	}
 
+	public getType():SegmentType
+	{
+		return this.type;
+	}
+
+	public getPoints():Array<Point>
+	{
+		return this.points;
+	}
+
 
 	private type: SegmentType;
 	private points: Array<Point> = new Array<Point>();

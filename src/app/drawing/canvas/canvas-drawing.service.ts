@@ -1,7 +1,12 @@
 import {Injectable} from "@angular/core";
 
 import {DrawingService} from "../common/api/drawing.service";
-import {Color} from "../common/model/resource/Color";
+
+import {NodeElement} from "../common/model/NodeElement";
+
+import {Path} from "../common/model/geometry/Path";
+import {SegmentType} from "../common/model/geometry/Segment";
+import {Point} from "../common/model/geometry/Point";
 
 @Injectable()
 export class CanvasDrawingService extends DrawingService
@@ -13,7 +18,18 @@ export class CanvasDrawingService extends DrawingService
 	{
 		let canvas: HTMLCanvasElement = <HTMLCanvasElement> element;
 
+
+
 		this.context2D = canvas.getContext("2d");
+
+		canvas.width = DrawingService.graphicsScaleFactor * canvas.clientWidth;
+		canvas.height = DrawingService.graphicsScaleFactor * canvas.clientHeight;
+
+		// Setup Default ViewPort
+		this.getViewPort().setBounds(0, 0, canvas.width, canvas.height);
+		this.setZoomFactor(2.0);
+
+		this.showInfo();
 	}
 
 	getSurface(): CanvasRenderingContext2D
@@ -21,39 +37,155 @@ export class CanvasDrawingService extends DrawingService
 		return this.context2D;
 	}
 
-	public pushState(): void
-	{
-		this.context2D.save();
-	}
-
-	public popState(): void
-	{
-		this.context2D.restore();
-	}
-
-	public setForegroundColor(color: Color): void
-	{
-		this.context2D.strokeStyle = color.toRGBString();
-	}
-
-	public fillRectangle(x: number, y: number, width: number, height: number): void
+	public handleResize(width: number, height: number): void
 	{
 		// TODO
+		console.log("Handle Resize here !");
 	}
 
-	public drawRectangle(x:number, y:number, width:number, height:number):void
+	public showInfo(): void
 	{
-		this.context2D.rect(x,y,width,height)
+		console.log("Canvas: W: " + this.context2D.canvas.width + " H:  " + this.context2D.canvas.height);
+
 	}
 
 
+	private drawGrid(): void
+	{
+		let stepx = 10;
+		let stepy = 10;
 
-	draw(): void
+		this.context2D.save();
+
+		this.context2D.strokeStyle = "#000000";
+		this.context2D.lineWidth = 0.5;
+		this.context2D.globalAlpha = 0.1;
+
+		this.context2D.beginPath();
+		for (let i = stepx + 0.5; i < this.context2D.canvas.width; i += stepx)
+		{
+			this.context2D.moveTo(i, 0);
+			this.context2D.lineTo(i, this.context2D.canvas.height);
+		}
+		this.context2D.stroke();
+
+		this.context2D.beginPath();
+		for (let i = stepy + 0.5; i < this.context2D.canvas.height; i += stepy)
+		{
+			this.context2D.moveTo(0, i);
+			this.context2D.lineTo(this.context2D.canvas.width, i);
+		}
+		this.context2D.stroke();
+		this.context2D.globalAlpha = 0.0;
+		this.context2D.restore();
+
+
+	}
+
+	public draw(nodeElement: NodeElement): void
 	{
 
 		// Clear Background
-		this.context2D.fillStyle = "#CCCCCC";
-		this.context2D.fillRect(0,0,this.context2D.canvas.width,this.context2D.canvas.height);
+		this.context2D.fillStyle = "#FFFFFF";
+		this.context2D.fillRect( 0, 0, this.context2D.canvas.width, this.context2D.canvas.height);
 
+		this.context2D.save();
+
+		let xOffset: number = this.getViewPort().getX();
+		let yOffset: number = this.getViewPort().getY();
+
+		let width: number = this.getViewPort().getWidth();
+		let height: number = this.getViewPort().getHeight();
+
+
+		this.context2D.translate( -xOffset, -yOffset );
+		this.context2D.scale(this.getZoomFactor(), this.getZoomFactor());
+
+
+
+		this.drawGrid();
+		this.internalDraw(nodeElement);
+
+		this.drawInfo();
+		this.context2D.restore();
+	}
+
+	private drawPath(path: Path): void
+	{
+		this.context2D.beginPath();
+
+		for (let segment of path.getSegments())
+		{
+			let points: Array<Point> = segment.getPoints();
+
+			switch (segment.getType())
+			{
+				case SegmentType.CLOSE:
+				{
+					this.context2D.closePath();
+					break;
+				}
+
+				case SegmentType.LINE_TO:
+				{
+					this.context2D.lineTo(points[0].getX(), points[0].getY());
+					break;
+				}
+
+				case SegmentType.MOVE_TO:
+				{
+					this.context2D.moveTo(points[0].getX(), points[0].getY());
+					break;
+				}
+
+				case SegmentType.CUBIC_TO:
+				{
+					this.context2D.bezierCurveTo(points[0].getX(), points[0].getY(), points[1].getX(), points[1].getY(), points[2].getX(), points[2].getY());
+					break;
+				}
+
+				case SegmentType.QUAD_TO:
+				{
+					this.context2D.quadraticCurveTo(points[0].getX(), points[0].getY(), points[1].getX(), points[1].getY());
+					break;
+				}
+			}
+		}
+
+		this.context2D.lineWidth = 5;
+		this.context2D.strokeStyle = "blue";
+		this.context2D.stroke();
+	}
+
+
+	private internalDraw(nodeElement: NodeElement): void
+	{
+		for (let shapeElement  of nodeElement.getShapeElements())
+		{
+			for (let iGeometry of shapeElement.getShapes())
+			{
+				let path: Path = iGeometry.getPath();
+				this.drawPath(path);
+			}
+		}
+	}
+
+	private drawInfo():void
+	{
+		this.context2D.save();
+		let xOffset:number = this.getViewPort().getX();
+		let yOffset:number = this.getViewPort().getY();
+
+		let xSize = this.getViewPort().getWidth();
+		let ySize = this.getViewPort().getHeight();
+
+
+		this.context2D.font = "12px Arial";
+		this.context2D.strokeStyle = "#000000";
+		this.context2D.fillStyle = "#000000";
+		this.context2D.lineWidth = 1;
+		//this.context2D.strokeText(`ViewPort: (${xOffset},${yOffset}) -> (${xSize},${ySize})`, 100, 100 );
+		this.context2D.fillText(`ViewPort: (${xOffset},${yOffset}) -> (${xSize},${ySize})`, 100, 100 );
+		this.context2D.restore();
 	}
 }

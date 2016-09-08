@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 
 import {DrawingService} from "../common/api/drawing.service";
+import {NodeElement} from "../common/model/NodeElement";
 
 @Injectable()
 export class SvgDrawingService extends DrawingService {
@@ -16,7 +17,12 @@ export class SvgDrawingService extends DrawingService {
     }
 
 
-    public draw(): void
+    public draw(nodeElement:NodeElement): void
+    {
+
+    }
+
+    public handleResize( width:number, height:number):void
     {
 
     }

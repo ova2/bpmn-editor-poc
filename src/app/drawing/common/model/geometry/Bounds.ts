@@ -3,6 +3,11 @@ export class Bounds
 
 	constructor( x:number, y:number, width:number, height:number)
 	{
+		this.setBounds(x,y,width,height);
+	}
+
+	public setBounds(x:number, y:number, width:number, height:number)
+	{
 		this.x = x;
 		this.y = y;
 		this.width = width;

@@ -41,6 +41,11 @@ export class Path
 		return this;
 	}
 
+	public getSegments():Array<Segment>
+	{
+		return this.segments;
+	}
+
 
 	private segments: Array < Segment > = new Array<Segment>();
 	public static WIND_EVEN_ODD = 0;

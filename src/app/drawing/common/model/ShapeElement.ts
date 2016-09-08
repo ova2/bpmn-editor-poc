@@ -1,12 +1,12 @@
 import {NamedElement} from "./NamedElement";
 import {Utils} from "../../../inspire/develop/util/Utils";
 import {IGeometry} from "./geometry/IGeometry";
-import {JsonObject,JsonMember,TypedJSON} from "typedjson/js";
+
 
 /**
  * A ShapeElement describes the Shape to draw
  */
-@JsonObject
+
 export class ShapeElement extends NamedElement
 {
 	constructor(name:string, shape?:IGeometry)
@@ -29,7 +29,7 @@ export class ShapeElement extends NamedElement
 		return this.shapes;
 	}
 
-	@JsonMember
+
 	private shapes:Array<IGeometry> = new Array<IGeometry>();
 
 }

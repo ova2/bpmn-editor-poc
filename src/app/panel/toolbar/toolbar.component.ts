@@ -14,13 +14,12 @@ export class ToolbarComponent {
 
     onZoomIn(event: Event) {
         event.preventDefault();
-
-        // TODO
+        console.log("Zoom In");
     }
 
     onZoomOut(event: Event) {
         event.preventDefault();
-
+        console.log("Zoom Out");
         // TODO
     }
 }

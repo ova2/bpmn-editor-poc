@@ -5,10 +5,9 @@ import {DrawingService} from "../common/api/drawing.service";
 import {CanvasDrawingService} from "./canvas-drawing.service";
 import {DataLoadService} from "../../data-access/dataload.service";
 import {Rectangle} from "../common/model/geometry/Rectangle";
-import {Path} from "../common/model/geometry/Path";
+
 import {NodeElement} from "../common/model/NodeElement";
 import {ShapeElement} from "../common/model/ShapeElement";
-import {TypedJSON} from "../../util/typed-json";
 
 @Component({
 	selector: "bpm-canvas-drawing",
@@ -31,44 +30,34 @@ export class CanvasDrawingComponent implements AfterViewInit
 	}
 
 	@HostListener("click") onClick()
-	{
-		console.log("Mouse Click");
+		{
+			console.log("Mouse Click");
+			this.drawingService.draw( this.rootNodeElement);
 	}
 
 	@HostListener("mousemove") onMouseMove()
 	{
 		console.log("Mouse Move");
-		this.drawingService.draw();
 	}
 
+	@HostListener("window:resize") onResize()
+	{
+		this.drawingService.handleResize( window.innerWidth, window.innerHeight);
+	}
+
+
+	private rootNodeElement:NodeElement = new NodeElement("ROOT.NODE");
 
 	ngAfterViewInit() {
 		let element: Element = this.surface.nativeElement;
 		this.drawingService.initSurface(element);
 
-		let rootNodeElement:NodeElement = new NodeElement("ROOT.NODE");
+
 
 		let shapeElement:ShapeElement = new ShapeElement("SHAPE.NODE");
-		rootNodeElement.getShapeElements().push(shapeElement);
+		this.rootNodeElement.getShapeElements().push(shapeElement);
 
 		shapeElement.getShapes().push( new Rectangle( 10, 10, 100, 100 ) );
-
-		let jsonString = TypedJSON.stringify(rootNodeElement);
-
-
-		console.log("Root: " + jsonString);
-		let object = TypedJSON.parse(jsonString,NodeElement);
-
-		console.log("Object: " + object);
-
-
-
-
-
-
-
-
-
 
 
 
