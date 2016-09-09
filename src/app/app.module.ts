@@ -22,8 +22,7 @@ import {DataLoadService} from "./data-access/dataload.service";
 import {DrawingService} from "./drawing/common/api/drawing.service";
 import {SvgDrawingService} from "./drawing/svg/svg-drawing.service";
 import {CanvasDrawingService} from "./drawing/canvas/canvas-drawing.service";
-
-
+import {GenericEventService} from "./drawing/common/event/generic-event.service";
 
 @NgModule({
     imports: [
@@ -49,7 +48,8 @@ import {CanvasDrawingService} from "./drawing/canvas/canvas-drawing.service";
         DataLoadService,
         DrawingService,
         SvgDrawingService,
-        CanvasDrawingService
+        CanvasDrawingService,
+        GenericEventService
     ],
     bootstrap: [AppComponent]
 })

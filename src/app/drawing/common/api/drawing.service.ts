@@ -2,37 +2,30 @@ import {Injectable} from "@angular/core";
 import {NodeElement} from "../model/NodeElement";
 import {Bounds} from "../model/geometry/Bounds";
 
-
 @Injectable()
-export abstract class DrawingService
-{
+export abstract class DrawingService {
 
-	public abstract initSurface(element: Element): void;
+    private viewPort: Bounds = new Bounds(0, 0, 100, 100);
+    private zoomFactor: number = 1.0;
+    static graphicsScaleFactor: number = 2.0;
 
-	public abstract getSurface(): any;
+    abstract initSurface(element: Element): void;
 
-	public abstract draw(nodeElement:NodeElement): void;
+    abstract getSurface(): any;
 
-	public abstract handleResize( width:number, height:number):void;
+    abstract draw(nodeElement: NodeElement): void;
 
-	public getViewPort():Bounds
-	{
-		return this.viewPort;
-	}
+    abstract handleResize(width: number, height: number): void;
 
-	public getZoomFactor():number
-	{
-		return this.zoomFactor * DrawingService.graphicsScaleFactor;
-	}
+    getViewPort(): Bounds {
+        return this.viewPort;
+    }
 
-	public setZoomFactor( zoomFactor:number) : void
-	{
-		this.zoomFactor = zoomFactor;
-	}
+    getZoomFactor(): number {
+        return this.zoomFactor * DrawingService.graphicsScaleFactor;
+    }
 
-
-	private viewPort:Bounds = new Bounds(0,0,100,100);
-	private zoomFactor:number = 1.0;
-	public static graphicsScaleFactor:number = 2.0;
-
+    setZoomFactor(zoomFactor: number): void {
+        this.zoomFactor = zoomFactor;
+    }
 }
