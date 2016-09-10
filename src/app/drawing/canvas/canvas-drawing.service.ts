@@ -52,7 +52,7 @@ export class CanvasDrawingService extends DrawingService
 		this.showInfo();
 
 		// Setup event handler
-		this.eventSubscription = this.eventService.subscribeDrawingEvent(this.handleDrawingEvent);
+		this.eventSubscription = this.eventService.subscribeDrawingEvent(this.handleDrawingEvent.bind(this));
 	}
 
 	getSurface(): CanvasRenderingContext2D
