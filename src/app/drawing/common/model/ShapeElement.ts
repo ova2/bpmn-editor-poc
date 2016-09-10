@@ -1,17 +1,25 @@
 import {NamedElement} from "./NamedElement";
 import {Utils} from "../../../inspire/develop/util/Utils";
 import {IGeometry} from "./geometry/IGeometry";
+import {Resource} from "./resource/Resource";
 
 
 /**
  * A ShapeElement describes the Shape to draw
  */
 
+export enum ShapeElementType
+{
+	STROKE, FILL
+}
+
+
 export class ShapeElement extends NamedElement
 {
-	constructor(name:string, shape?:IGeometry)
+	constructor(name:string, type:ShapeElementType, shape?:IGeometry)
 	{
 		super( name );
+		this.type = type;
 		if( shape != null )
 		{
 			this.shapes.push(shape);
@@ -29,7 +37,19 @@ export class ShapeElement extends NamedElement
 		return this.shapes;
 	}
 
+	public getResources():Array<Resource>
+	{
+		return this.resources;
+	}
+
+	public getType():ShapeElementType
+	{
+		return this.type;
+	}
 
 	private shapes:Array<IGeometry> = new Array<IGeometry>();
 
+	private resources:Array<Resource> = new Array<Resource>();
+
+	private type:ShapeElementType = ShapeElementType.STROKE;
 }

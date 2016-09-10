@@ -6,7 +6,16 @@ import {DataLoadService} from "../../data-access/dataload.service";
 import {Rectangle} from "../common/model/geometry/Rectangle";
 
 import {NodeElement} from "../common/model/NodeElement";
-import {ShapeElement} from "../common/model/ShapeElement";
+import {
+	ShapeElement,
+	ShapeElementType
+} from "../common/model/ShapeElement";
+import {
+	Pattern,
+	PatternType
+} from "../common/model/resource/Pattern";
+import {Point} from "../common/model/geometry/Point";
+import {Color} from "../common/model/resource/Color";
 
 @Component({
     selector: "bpm-canvas-drawing",
@@ -28,7 +37,7 @@ export class CanvasDrawingComponent implements AfterViewInit, OnDestroy {
 
     @HostListener("click") onClick() {
         console.log("Mouse Click");
-        this.drawingService.draw(this.rootNodeElement);
+        this.drawingService.draw( this.drawingService.getRootNodeElement());
     }
 
     @HostListener("mousemove") onMouseMove() {
@@ -39,16 +48,32 @@ export class CanvasDrawingComponent implements AfterViewInit, OnDestroy {
         this.drawingService.handleResize(window.innerWidth, window.innerHeight);
     }
 
-    private rootNodeElement: NodeElement = new NodeElement("ROOT.NODE");
+    private
 
     ngAfterViewInit() {
         let element: Element = this.surface.nativeElement;
         this.drawingService.initSurface(element);
 
-        let shapeElement: ShapeElement = new ShapeElement("SHAPE.NODE");
-        this.rootNodeElement.getShapeElements().push(shapeElement);
+		let rootNodeElement: NodeElement = new NodeElement("ROOT.NODE");
+        let shapeElement: ShapeElement = new ShapeElement("SHAPE.NODE", ShapeElementType.FILL);
+        rootNodeElement.getShapeElements().push(shapeElement);
 
         shapeElement.getShapes().push(new Rectangle(10, 10, 100, 100));
+		let rainBowPattern:Pattern = new Pattern( PatternType.LINEAR, new Point(0,0), new Point(200,200));
+
+
+		rainBowPattern.addStopColor(1/7, Color.createColor("#FF0000"));
+		rainBowPattern.addStopColor(2/7, Color.createColor("#FF7F00"));
+		rainBowPattern.addStopColor(3/7, Color.createColor("#FFFF00"));
+		rainBowPattern.addStopColor(4/7, Color.createColor("#00FF00"));
+		rainBowPattern.addStopColor(5/7, Color.createColor("#0000FF"));
+		rainBowPattern.addStopColor(6/7, Color.createColor("#4B0082"));
+		rainBowPattern.addStopColor(7/7, Color.createColor("#8F00FF"));
+
+
+		shapeElement.getResources().push( rainBowPattern );
+
+		this.drawingService.setRootNodeElement( rootNodeElement );
 
         // this.dataLoadService.getPayload().subscribe(
         //	shapes => this.drawingService.draw(shapes),

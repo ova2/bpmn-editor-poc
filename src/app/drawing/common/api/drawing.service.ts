@@ -17,15 +17,27 @@ export abstract class DrawingService {
 
     abstract handleResize(width: number, height: number): void;
 
-    getViewPort(): Bounds {
+    public getViewPort(): Bounds {
         return this.viewPort;
     }
 
-    getZoomFactor(): number {
+    public getZoomFactor(): number {
         return this.zoomFactor * DrawingService.graphicsScaleFactor;
     }
 
-    setZoomFactor(zoomFactor: number): void {
-        this.zoomFactor = zoomFactor;
+    public setZoomFactor(zoomFactor: number): void {
+        this.zoomFactor = zoomFactor * DrawingService.graphicsScaleFactor;
     }
+
+    public getRootNodeElement():NodeElement
+    {
+        return this.rootNodeElement;
+    }
+
+    public setRootNodeElement(nodeElement:NodeElement)
+    {
+        this.rootNodeElement = nodeElement;
+    }
+
+    private rootNodeElement:NodeElement;
 }
