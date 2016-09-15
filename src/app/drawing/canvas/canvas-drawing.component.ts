@@ -19,47 +19,30 @@ export class CanvasDrawingComponent implements AfterViewInit, OnDestroy
 
 	@ViewChild("surface") surface: ElementRef;
 
-
-	@HostListener('mousedown', ['$event'])
-	onMouseDown(event:MouseEvent)
+    onMouseDown(event:MouseEvent)
 	{
-		if( event.target == this.surface.nativeElement )
 		this._graphicsEditor.handleMouseEvent( event );
 	}
 
-	@HostListener('click', ['$event'])
 	onMouseClick(event:MouseEvent)
 	{
-		if( event.target == this.surface.nativeElement )
 		this._graphicsEditor.handleMouseEvent( event );
 	}
 
-
-
-	@HostListener('mouseenter', ['$event'])
 	onMouseEnter(event:MouseEvent)
 	{
-		if( event.target == this.surface.nativeElement )
 		this._graphicsEditor.handleMouseEvent( event );
 	}
 
-	@HostListener('mouseleave', ['$event'])
 	onMouseLeave(event:MouseEvent)
 	{
-		if( event.target == this.surface.nativeElement )
 		this._graphicsEditor.handleMouseEvent( event );
 	}
 
-
-	@HostListener('mousemove', ['$event'])
 	onMouseMove(event:MouseEvent)
 	{
-		if( event.target == this.surface.nativeElement )
 		this._graphicsEditor.handleMouseEvent( event );
 	}
-
-
-
 
 	ngAfterViewInit()
 	{
@@ -68,10 +51,9 @@ export class CanvasDrawingComponent implements AfterViewInit, OnDestroy
 
 		let canvas: HTMLCanvasElement = <HTMLCanvasElement> element;
 
-
-			this._graphicsEditor = new GraphicsEditor( <HTMLCanvasElement> canvas);
-			this._graphicsEditor.rootNodeElement = Test.test1();
-			this._graphicsEditor.draw( this._graphicsEditor.rootNodeElement );
+        this._graphicsEditor = new GraphicsEditor( <HTMLCanvasElement> canvas);
+        this._graphicsEditor.rootNodeElement = Test.test1();
+        this._graphicsEditor.draw( this._graphicsEditor.rootNodeElement );
 	}
 
 	ngOnDestroy()

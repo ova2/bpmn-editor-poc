@@ -1,3 +1,9 @@
 <bpm-layout>
-    <canvas id="canvasSurface" bpmCanvas class="bpm-drawing-area" #surface></canvas>
+    <canvas id="canvasSurface" class="bpm-drawing-area" #surface
+            (click)="onMouseClick($event)"
+            (mousedown)="onMouseDown($event)"
+            (mouseenter)="onMouseEnter($event)"
+            (mouseleave)="onMouseLeave($event)"
+            (mousemove)="onMouseMove($event)">
+    </canvas>
 </bpm-layout>

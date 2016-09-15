@@ -10,7 +10,8 @@
     "sourceMap": true,
     "inlineSources": true
   },
-  "compileOnSave": true,
+  // see https://blog.jetbrains.com/webstorm/2016/03/how-to-compile-typescript-in-webstorm/
+  "compileOnSave": false,
   "buildOnSave": false,
   "types": [
     "core-js",
