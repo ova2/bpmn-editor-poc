@@ -3,9 +3,10 @@ target
 .settings
 .classpath
 .project
+.externalToolBuilders
 .idea
 *.iml
-
+.vscode
 target/
 node_modules/
 typings/
