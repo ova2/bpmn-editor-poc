@@ -1,8 +1,7 @@
 
 import {ShapeElement} from "./ShapeElement";
-import {UId} from "../../../inspire/develop/util/UId";
-import {Utils} from "../../../inspire/develop/util/Utils";
 import {NamedElement} from "./NamedElement";
+import {Utils} from "../util/Utils";
 
 
 export class NodeElement extends NamedElement

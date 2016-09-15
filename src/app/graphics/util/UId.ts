@@ -1,4 +1,6 @@
-    export class UId
+
+
+export class UId
     {
 
         // Generate a new UID
@@ -14,3 +16,4 @@
         }
 
     }
+

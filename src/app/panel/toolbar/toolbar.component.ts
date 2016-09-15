@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 import {GenericEventService} from "../../drawing/common/event/generic-event.service";
 import GenericEvent from "../../drawing/common/event/generic-event";
-import SurfaceAction from "../../drawing/common/model/surface-action";
+import SurfaceAction from "../../drawing/common/event/surface-action";
 
 @Component({
     selector: "bpm-toolbar",

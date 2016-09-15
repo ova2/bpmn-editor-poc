@@ -27,6 +27,7 @@ export class Segment
 		}
 	}
 
+
 	public getType():SegmentType
 	{
 		return this.type;

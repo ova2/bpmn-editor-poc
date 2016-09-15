@@ -1,4 +1,6 @@
-import {UId} from "../../../../inspire/develop/util/UId";
+
+
+import {UId} from "../../util/UId";
 export class Resource
 {
     constructor()

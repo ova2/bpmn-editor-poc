@@ -1,7 +1,8 @@
 import {NamedElement} from "./NamedElement";
-import {Utils} from "../../../inspire/develop/util/Utils";
+
 import {IGeometry} from "./geometry/IGeometry";
 import {Resource} from "./resource/Resource";
+import {Utils} from "../util/Utils";
 
 
 /**

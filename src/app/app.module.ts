@@ -18,10 +18,6 @@ import {PaletteComponent} from "./panel/palette/palette.component";
 import {PropertiesComponent} from "./panel/properties/properties.component";
 import {ShapesComponent} from "./panel/shapes/shapes.component";
 import {ToolbarComponent} from "./panel/toolbar/toolbar.component";
-import {DataLoadService} from "./data-access/dataload.service";
-import {DrawingService} from "./drawing/common/api/drawing.service";
-import {SvgDrawingService} from "./drawing/svg/svg-drawing.service";
-import {CanvasDrawingService} from "./drawing/canvas/canvas-drawing.service";
 import {GenericEventService} from "./drawing/common/event/generic-event.service";
 
 @NgModule({
@@ -44,11 +40,8 @@ import {GenericEventService} from "./drawing/common/event/generic-event.service"
         SvgDrawingComponent,
         CanvasDrawingComponent
     ],
-    providers: [
-        DataLoadService,
-        DrawingService,
-        SvgDrawingService,
-        CanvasDrawingService,
+    providers:
+    [
         GenericEventService
     ],
     bootstrap: [AppComponent]

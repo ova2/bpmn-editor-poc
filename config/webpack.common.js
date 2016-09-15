@@ -28,13 +28,16 @@ module.exports = {
         extensions: ['', '.ts', '.js', '.json']
     },
     module: {
+       /*
         preLoaders: [{
+
             // TSlint loader support for *.ts files
             // https://github.com/wbuchwalter/tslint-loader
             test: /\.ts$/,
             loader: 'tslint',
             exclude: [path.join(ROOT, 'node_modules')]
         }],
+        */
         loaders: [{
             test: /\.ts$/,
             loaders: ['awesome-typescript-loader', 'angular2-template-loader']
