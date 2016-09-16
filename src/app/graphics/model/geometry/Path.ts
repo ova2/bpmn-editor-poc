@@ -3,6 +3,7 @@ import {
 	SegmentType
 } from "./Segment";
 import {Point} from "./Point";
+import {Bounds} from "./Bounds";
 
 export class Path
 {
@@ -10,6 +11,8 @@ export class Path
 	constructor()
 	{
 	}
+
+
 
 	public lineTo(x: number, y: number): Path
 	{

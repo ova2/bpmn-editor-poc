@@ -1,5 +1,43 @@
 export class Bounds
 {
+	public get y(): number
+	{
+		return this._y;
+	}
+
+	public set y(value: number)
+	{
+		this._y = value;
+	}
+
+	public get width(): number
+	{
+		return this._width;
+	}
+
+	public set width(value: number)
+	{
+		this._width = value;
+	}
+
+	public get height(): number
+	{
+		return this._height;
+	}
+
+	public set height(value: number)
+	{
+		this._height = value;
+	}
+	public get x(): number
+	{
+		return this._x;
+	}
+
+	public set x(value: number)
+	{
+		this._x = value;
+	}
 
 	constructor( x:number, y:number, width:number, height:number)
 	{
@@ -8,62 +46,47 @@ export class Bounds
 
 	public setBounds(x:number, y:number, width:number, height:number)
 	{
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+		this._x = x;
+		this._y = y;
+		this._width = width;
+		this._height = height;
 	}
 
-	public getX():number
+	public copy():Bounds
 	{
-		return this.x;
+		return new Bounds( this.x, this.y, this.width, this.height);
 	}
 
-	public getY():number
+	public static EMPTY_BOUNDS:Bounds = new Bounds(0,0,0,0);
+
+	public containsPoint( x:number, y:number ):boolean
 	{
-		return this.y;
+		return (x >= this._x) && ( x <= ( this._x + this._width) ) && (y >= this._y) && ( y <= ( this._y + this._height) )
 	}
 
-	public getWidth():number
+	public  union( bounds:Bounds):Bounds
 	{
-		return this.width;
-	}
+		let right: number = Math.max( this.x + this.width, bounds.x + bounds.width);
+		let bottom: number = Math.max(this.y + this.height, bounds.y + bounds.height);
+		this.x = Math.min(this.x, bounds.x);
+		this.y = Math.min(this.y, bounds.y);
+		this.width = right - this.x;
+		this.height = bottom - this.y;
 
-	public getHeight():number
-	{
-		return this.height;
-	}
-
-	public setX( x:number )
-	{
-		this.x = x;
-	}
-
-	public setY( y:number )
-	{
-		this.y = y;
-	}
-
-	public setWidth( width:number )
-	{
-		this.width = width;
-	}
-
-	public setHeight( height:number )
-	{
-		this.height = height;
+		return this;
 	}
 
 
-	// X Coordinate
-	private x:number;
+
+		// X Coordinate
+	private _x:number;
 
 	// Y Coordinate
-	private y:number;
+	private _y:number;
 
 	// Width
-	private width:number;
+	private _width:number;
 
 	// Height
-	private height:number;
+	private _height:number;
 }

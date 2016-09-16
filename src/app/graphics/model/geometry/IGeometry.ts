@@ -1,8 +1,10 @@
 import {Path} from "./Path";
-import {Stroke} from "../resource/Stroke";
-import {Color} from "../resource/Color";
+import {Bounds} from "./Bounds";
+
+
 export interface IGeometry
 {
 
+	getBounds():Bounds;
 	getPath():Path;
 }

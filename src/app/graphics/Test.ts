@@ -11,8 +11,12 @@ export class Test
     public static test1():NodeElement
     {
         let rootNodeElement: NodeElement = new NodeElement("ROOT.NODE");
+
+        let testElement1:NodeElement = new NodeElement("Rectangle 1");
+        rootNodeElement.add(testElement1);
+
         let shapeElement: ShapeElement = new ShapeElement("SHAPE.NODE", ShapeElementType.FILL);
-        rootNodeElement.getShapeElements().push(shapeElement);
+        testElement1.getShapeElements().push(shapeElement);
 
         shapeElement.getShapes().push(new Rectangle(10, 10, 100, 100));
         let rainBowPattern: Pattern = new Pattern(PatternType.LINEAR, new Point(0, 0), new Point(200, 200));

@@ -53,7 +53,7 @@ export class CanvasDrawingComponent implements AfterViewInit, OnDestroy
 
         this._graphicsEditor = new GraphicsEditor( <HTMLCanvasElement> canvas);
         this._graphicsEditor.rootNodeElement = Test.test1();
-        this._graphicsEditor.draw( this._graphicsEditor.rootNodeElement );
+        this._graphicsEditor.repaint(  );
 	}
 
 	ngOnDestroy()

@@ -2,6 +2,7 @@
 import {ShapeElement} from "./ShapeElement";
 import {NamedElement} from "./NamedElement";
 import {Utils} from "../util/Utils";
+import {Bounds} from "./geometry/Bounds";
 
 
 export class NodeElement extends NamedElement
@@ -28,6 +29,25 @@ export class NodeElement extends NamedElement
         {
             childElement.dump( indent + 2) ;
         }
+    }
+
+    public getBounds():Bounds
+    {
+        let bounds:Bounds = null;
+
+        for( let shapeElement of this.getShapeElements())
+        {
+            if( bounds == null )
+            {
+                bounds = shapeElement.getBounds().copy();
+            }
+            else
+            {
+                bounds.union( shapeElement.getBounds());
+            }
+        }
+
+        return bounds;
     }
 
     public getParent(): NodeElement

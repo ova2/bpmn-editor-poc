@@ -1,17 +1,21 @@
 import {GraphicsEditor} from "../GraphicsEditor";
-export abstract class AbstractController
+export class EditPolicy
 {
 	public get graphicsEditor(): GraphicsEditor
 	{
 		return this._graphicsEditor;
 	}
-
-	constructor( graphicsEditor:GraphicsEditor)
+	public onActivate( graphicsEditor:GraphicsEditor):void
 	{
 		this._graphicsEditor = graphicsEditor;
 	}
 
-	public abstract handleMouseEvent(mouseEvent:MouseEvent):void;
+	public onDeactivate(graphicsEditor:GraphicsEditor ):void
+	{
+		this._graphicsEditor = null;
+	}
+
+
 
 	private _graphicsEditor:GraphicsEditor;
 }
