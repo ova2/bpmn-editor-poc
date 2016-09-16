@@ -52,7 +52,7 @@ export class Color extends Resource
 
 	public toRGBString(): string
 	{
-		return "rgb(" + this.red + "," + this.green + "," + this.blue + "," + ")";
+		return "rgb(" + this.red + "," + this.green + "," + this.blue  + ")";
 	}
 
 

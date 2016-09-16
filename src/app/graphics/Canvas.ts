@@ -11,6 +11,10 @@ import {Point} from "./model/geometry/Point";
 import {SegmentType} from "./model/geometry/Segment";
 import {Bounds} from "./model/geometry/Bounds";
 import {DrawingEngine} from "./DrawingEngine";
+import {
+	Stroke,
+	LineJoin
+} from "./model/resource/Stroke";
 
 export class Canvas extends DrawingEngine
 {
@@ -117,7 +121,9 @@ export class Canvas extends DrawingEngine
 		{
 			let color: Color = <Color> resource;
 			this._context2D.strokeStyle = color.toRGBString();
-		} else if (resource instanceof Pattern)
+			this._context2D.strokeStyle = "#000000";
+		}
+		else if (resource instanceof Pattern)
 		{
 			let pattern: Pattern = <Pattern> resource;
 			switch (pattern.getType())
@@ -135,11 +141,47 @@ export class Canvas extends DrawingEngine
 				}
 			}
 		}
+		else if( resource instanceof  Stroke)
+		{
+			let stroke:Stroke = <Stroke> resource;
+
+			if( stroke.getWidth() != null )
+			{
+				this._context2D.lineWidth = stroke.getWidth();
+			}
+
+			if( stroke.lineJoin != null )
+			{
+				switch (stroke.lineJoin )
+				{
+					case LineJoin.BEVEL:
+					{
+						this._context2D.lineJoin = "bevel";
+						break;
+					}
+
+					case LineJoin.ROUND:
+					{
+						this._context2D.lineJoin = "round";
+						break;
+					}
+
+					case LineJoin.MITER:
+					{
+						this._context2D.lineJoin = "miter";
+						break;
+					}
+
+
+				}
+			}
+		}
 	}
 
 	public draw(nodeElement: NodeElement): void
 	{
 
+		console.log("Draw: " + (nodeElement == null ? " NONE " : nodeElement.getName()));
 		this._context2D.save();
 
 
@@ -229,8 +271,6 @@ export class Canvas extends DrawingEngine
 			}
 		}
 
-		this._context2D.lineWidth = 5;
-		this._context2D.strokeStyle = "blue";
 
 
 		switch (type)
@@ -257,10 +297,13 @@ export class Canvas extends DrawingEngine
 		for (let shapeElement  of nodeElement.getShapeElements())
 		{
 
+			this._context2D.fillStyle = null;
+			this._context2D.strokeStyle = null;
 			for (let resource of  shapeElement.getResources())
 			{
 				this.appyResource(resource);
 			}
+
 			for (let iGeometry of shapeElement.getShapes())
 			{
 				let path: Path = iGeometry.getPath();

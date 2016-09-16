@@ -5,6 +5,7 @@ import {Rectangle} from "./model/geometry/Rectangle";
 import {ShapeElementType, ShapeElement} from "./model/ShapeElement";
 import {NodeElement} from "./model/NodeElement";
 import {Point} from "./model/geometry/Point";
+import {Stroke} from "./model/resource/Stroke";
 
 export class Test
 {
@@ -32,6 +33,23 @@ export class Test
 
 
         shapeElement.getResources().push(rainBowPattern);
+
+        return rootNodeElement;
+    }
+
+    public static test2():NodeElement
+    {
+        let rootNodeElement: NodeElement = new NodeElement("ROOT.NODE");
+
+        let testElement1:NodeElement = new NodeElement("Rectangle 2");
+        rootNodeElement.add(testElement1);
+
+        let shapeElement: ShapeElement = new ShapeElement("SHAPE.NODE", ShapeElementType.STROKE);
+        testElement1.getShapeElements().push(shapeElement);
+
+        shapeElement.getShapes().push(new Rectangle(110, 288, 100, 100));
+        shapeElement.getResources().push( Color.createColor("#FF0000"));
+        shapeElement.getResources().push( new Stroke(1));
 
         return rootNodeElement;
     }

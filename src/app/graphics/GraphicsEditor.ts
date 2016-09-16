@@ -9,6 +9,7 @@ import {Bounds} from "./model/geometry/Bounds";
 
 export class GraphicsEditor
 {
+
 	get rootNodeElement(): NodeElement
 	{
 		return this._rootNodeElement;
@@ -28,18 +29,30 @@ export class GraphicsEditor
 	}
 
 
-	public repaint(nodeElement?: NodeElement): void
+	public repaint()
 	{
-		if (nodeElement == null)
+		this._drawingEngine.draw(null);
+		for (let childNode of this._rootNodeElement.getChildList())
 		{
-			this._drawingEngine.draw(null);
-			nodeElement = this._rootNodeElement;
+			this.iRepaint(childNode);
 		}
+
+			for (let nodeElement of this._feedbackNodes )
+			{
+				this.iRepaint(nodeElement);
+			}
+	}
+
+
+
+	public iRepaint(nodeElement: NodeElement): void
+	{
 		this._drawingEngine.draw(nodeElement);
 		for (let childNode of nodeElement.getChildList())
 		{
-			this.repaint(childNode);
+			this.iRepaint(childNode);
 		}
+
 	}
 
 	private findElementRecursive(position: Point, nodeElement: NodeElement, resultList: Array<NodeElement>): void
@@ -59,6 +72,7 @@ export class GraphicsEditor
 	public clearSelectedElements(): void
 	{
 		this._selectedNodeElements = [];
+		this._feedbackNodes = [];
 	}
 
 
@@ -117,6 +131,13 @@ export class GraphicsEditor
 		return new Point(x - clientRect.left, y - clientRect.top);
 	}
 
+	public addNodeElement2Layer( layer:string, nodeElement:NodeElement )
+	{
+		this._feedbackNodes.push(nodeElement);
+	}
+
+
+	private _feedbackNodes:Array<NodeElement> = new Array();
 
 	private _editPolicies: Array<EditPolicy> = new Array();
 	private _rootNodeElement: NodeElement;
