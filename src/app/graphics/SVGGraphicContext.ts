@@ -1,7 +1,7 @@
 import {DrawingEngine} from "./DrawingEngine";
 import {NodeElement} from "./model/NodeElement";
 import {Bounds} from "./model/geometry/Bounds";
-
+import "snapsvg-cjs";
 
 
 export class SVGGraphicContext extends DrawingEngine
@@ -13,7 +13,7 @@ export class SVGGraphicContext extends DrawingEngine
 
 		if (element instanceof SVGElement)
 		{
-			this._snapSVG = Snap("#svg");
+			this._snapSVG = Snap(element);
 			this.viewPort = new Bounds( 0,0, element.clientWidth, element.clientHeight);
 		}
 
@@ -50,7 +50,7 @@ export class SVGGraphicContext extends DrawingEngine
 
 	}
 
-	private _snapSVG:Snap;
+	private _snapSVG: Snap.Paper;
 
 	public draw(nodeElement: NodeElement): void
 	{
