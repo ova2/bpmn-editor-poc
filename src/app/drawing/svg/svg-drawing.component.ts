@@ -4,6 +4,8 @@ import {
 	ElementRef,
 	AfterViewInit
 } from "@angular/core";
+import {GraphicsEditor} from "../../graphics/GraphicsEditor";
+import {Test} from "../../graphics/Test";
 
 
 @Component({
@@ -21,5 +23,11 @@ export class SvgDrawingComponent implements AfterViewInit
 	{
 		console.log("SVG Drawing Component init");
 		let element: Element = this.surface.nativeElement;
+
+		this._graphicsEditor = new GraphicsEditor( element);
+		this._graphicsEditor.rootNodeElement = Test.test1();
+		this._graphicsEditor.repaint(  );
 	}
+
+	private _graphicsEditor:GraphicsEditor;
 }

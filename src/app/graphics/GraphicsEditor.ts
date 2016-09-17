@@ -1,29 +1,36 @@
 import {DrawingEngine} from "./DrawingEngine";
-import {Canvas} from "./Canvas";
+
 import {NodeElement} from "./model/NodeElement";
 import {Point} from "./model/geometry/Point";
 import {EditPolicy} from "./policy/EditPolicy";
 import {SelectionEditPolicy} from "./policy/SelectionEditPolicy";
 import {MouseEventEditPolicy} from "./policy/MouseEventEditPolicy";
 import {Bounds} from "./model/geometry/Bounds";
+import {SVGGraphicContext} from "./SVGGraphicContext";
+import {CanvasGraphicContext} from "./CanvasGraphicContext";
 
 export class GraphicsEditor
 {
-
-	get rootNodeElement(): NodeElement
+	public get rootNodeElement(): NodeElement
 	{
 		return this._rootNodeElement;
 	}
 
-	set rootNodeElement(value: NodeElement)
+	public set rootNodeElement(value: NodeElement)
 	{
 		this._rootNodeElement = value;
 	}
 
-	constructor(htmlCanvasElement: HTMLCanvasElement)
+	constructor(element: Element)
 	{
-		this._drawingEngine = new Canvas(htmlCanvasElement);
-
+		if( element instanceof HTMLCanvasElement)
+		{
+			this._drawingEngine = new CanvasGraphicContext( <HTMLCanvasElement> element);
+		}
+		if( element instanceof SVGElement )
+		{
+			this._drawingEngine = new SVGGraphicContext(<SVGElement> element);
+		}
 		// Install EditPolicies
 		this._editPolicies.push(new SelectionEditPolicy());
 	}

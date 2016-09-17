@@ -1,5 +1,4 @@
 import {
-	HostListener,
 	Component,
 	ElementRef,
 	AfterViewInit,
@@ -49,9 +48,7 @@ export class CanvasDrawingComponent implements AfterViewInit, OnDestroy
 		console.log("CANVAS Drawing Component init");
 		let element: Element = this.surface.nativeElement;
 
-		let canvas: HTMLCanvasElement = <HTMLCanvasElement> element;
-
-        this._graphicsEditor = new GraphicsEditor( <HTMLCanvasElement> canvas);
+        this._graphicsEditor = new GraphicsEditor( element);
         this._graphicsEditor.rootNodeElement = Test.test1();
         this._graphicsEditor.repaint(  );
 	}
