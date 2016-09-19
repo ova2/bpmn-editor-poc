@@ -8,6 +8,7 @@
     import {Point} from "./model/geometry/Point";
     import {SegmentType} from "./model/geometry/Segment";
     import {DrawingEngine} from "./DrawingEngine";
+    import {Shadow} from "./model/resource/Shadow";
 
     export class CanvasGraphicContext extends DrawingEngine
     {
@@ -94,7 +95,7 @@
             {
                 let color: Color = <Color> resource;
                 this._context2D.strokeStyle = color.toRGBString();
-                this._context2D.strokeStyle = "#000000";
+
             }
             else if (resource instanceof Pattern)
             {
@@ -149,11 +150,19 @@
                     }
                 }
             }
+            else if( resource instanceof Shadow)
+            {
+                let shadow:Shadow = <Shadow> resource;
+                this._context2D.shadowColor = shadow.color.toRGBString();
+                this._context2D.shadowOffsetX = shadow.offsetX;
+                this._context2D.shadowOffsetY = shadow.offsetY;
+
+                this._context2D.shadowBlur = 2.0;
+            }
         }
 
         public draw(nodeElement: NodeElement): void
         {
-
             console.log("Draw: " + (nodeElement == null ? " NONE " : nodeElement.getName()));
             this._context2D.save();
 
@@ -163,14 +172,6 @@
                 // Clear Background
                 this._context2D.fillStyle = "#DDDDDD";
                 this._context2D.fillRect(0, 0, this._context2D.canvas.width, this._context2D.canvas.height);
-
-                // this._context2D.rect(0, 0, this._context2D.canvas.width, this._context2D.canvas.height);
-                // var grd = this._context2D.createLinearGradient(0, 0, this._context2D.canvas.width, this._context2D.canvas.height);
-
-
-                // this._context2D.fillStyle = grd;
-                // this._context2D.fill();
-
             }
 
 

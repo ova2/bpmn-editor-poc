@@ -17,11 +17,15 @@ export class Stroke extends Resource
 		this._lineJoin = value;
 	}
 
-	constructor( width:number)
+	constructor( width:number, lineJoin?:LineJoin)
 	{
 		super();
 
 		this.width = width;
+		if( lineJoin != null )
+		{
+			this._lineJoin = lineJoin;
+		}
 
 	}
 

@@ -5,7 +5,11 @@ import {Rectangle} from "./model/geometry/Rectangle";
 import {ShapeElementType, ShapeElement} from "./model/ShapeElement";
 import {NodeElement} from "./model/NodeElement";
 import {Point} from "./model/geometry/Point";
-import {Stroke} from "./model/resource/Stroke";
+import {
+    Stroke,
+    LineJoin
+} from "./model/resource/Stroke";
+import {Shadow} from "./model/resource/Shadow";
 
 export class Test
 {
@@ -31,8 +35,24 @@ export class Test
         rainBowPattern.addStopColor(6 / 7, Color.createColor("#4B0082"));
         rainBowPattern.addStopColor(7 / 7, Color.createColor("#8F00FF"));
 
+        let shadow:Shadow = new Shadow( Color.createColor("#AAAAAA"), 10, 10);
+
+        shapeElement.getResources().push( shadow);
+
+
 
         shapeElement.getResources().push(rainBowPattern);
+
+        shapeElement = new ShapeElement("Shadow Rect",ShapeElementType.STROKE);
+        testElement1.getShapeElements().push(shapeElement);
+        shapeElement.getShapes().push(new Rectangle(200, 10, 100, 100));
+        shadow = new Shadow( Color.createColor("#AAAAAA"), 6, 6);
+
+        shapeElement.getResources().push( shadow);
+        shapeElement.getResources().push( new Color( 0,0,0));
+        shapeElement.getResources().push( new Stroke(5,LineJoin.ROUND));
+
+
 
         return rootNodeElement;
     }
