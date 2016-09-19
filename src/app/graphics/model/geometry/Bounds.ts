@@ -59,6 +59,11 @@ export class Bounds
 
 	public static EMPTY_BOUNDS:Bounds = new Bounds(0,0,0,0);
 
+	public toString():string
+	{
+		return `(${this.x},${this.y})->(${this.x+this.width},${this.y+this.height})`;
+	}
+
 	public containsPoint( x:number, y:number ):boolean
 	{
 		return (x >= this._x) && ( x <= ( this._x + this._width) ) && (y >= this._y) && ( y <= ( this._y + this._height) )

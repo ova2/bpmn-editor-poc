@@ -64,9 +64,11 @@ export class GraphicsEditor
 
 	private findElementRecursive(position: Point, nodeElement: NodeElement, resultList: Array<NodeElement>): void
 	{
+		console.log("Checking: " + nodeElement.getName() + " " + nodeElement.getBounds());
 		let bounds: Bounds = nodeElement.getBounds();
 		if (bounds != null && bounds.containsPoint(position.getX(), position.getY()))
 		{
+			console.log("Checking: " + nodeElement.getName() + " " + nodeElement.getBounds() + " OK");
 			resultList.push(nodeElement);
 		}
 

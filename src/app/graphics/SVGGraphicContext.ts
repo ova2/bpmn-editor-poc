@@ -70,7 +70,7 @@ export class SVGGraphicContext extends DrawingEngine
 			{
 				stroke: "#000000",
 				strokeWidth: 0.5,
-				strokeOpacity:0.1;
+				strokeOpacity:0.1,
 			});
 
 	}

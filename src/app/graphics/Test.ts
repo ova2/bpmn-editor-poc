@@ -38,18 +38,19 @@ export class Test
         let shadow:Shadow = new Shadow( Color.createColor("#AAAAAA"), 10, 10);
 
         shapeElement.resources.push( shadow);
-
-
-
         shapeElement.resources.push(rainBowPattern);
 
+
+        let testElement2:NodeElement = new NodeElement("Rectangle 2");
+        rootNodeElement.add(testElement2);
+
         shapeElement = new ShapeElement("Shadow Rect",ShapeElementType.STROKE);
-        testElement1.getShapeElements().push(shapeElement);
+        testElement2.getShapeElements().push(shapeElement);
         shapeElement.shapes.push(new Rectangle(200, 10, 100, 100));
         shadow = new Shadow( Color.createColor("#AAAAAA"), 6, 6);
 
         shapeElement.resources.push( shadow);
-        shapeElement.resources.push( new Color( 0,0,0));
+        shapeElement.resources.push( new Color( 100,200,0));
         shapeElement.resources.push( new Stroke(5,LineJoin.ROUND));
 
 
