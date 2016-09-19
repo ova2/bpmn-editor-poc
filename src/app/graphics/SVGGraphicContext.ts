@@ -116,7 +116,9 @@ export class SVGGraphicContext extends DrawingEngine
 			this.internalDraw(nodeElement);
 		}
 
-		if( false )
+		let olegFunStuff:boolean = false;
+
+		if( olegFunStuff)
 		{
 			// just for fun ======================================
 			this._snapSVG.clear();
