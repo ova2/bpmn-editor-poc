@@ -8,6 +8,7 @@ var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 var OccurrenceOrderPlugin = require('webpack/lib/optimize/OccurrenceOrderPlugin');
 var HashedModuleIdsPlugin = require('webpack/lib/HashedModuleIdsPlugin');
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
+var ContextReplacementPlugin = require("webpack/lib/ContextReplacementPlugin");
 
 var ROOT = path.resolve(__dirname, '..');
 var CHUNKS_SORT_ORDER = ['manifest', 'globals', 'app'];
@@ -103,6 +104,10 @@ module.exports = {
                 var idxB = CHUNKS_SORT_ORDER.indexOf(b.names[0]);
                 return idxA - idxB;
             }
-        })
+        }),
+        new ContextReplacementPlugin(
+            /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+            __dirname
+        )
     ]
 };
