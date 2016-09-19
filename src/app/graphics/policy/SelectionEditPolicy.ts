@@ -46,11 +46,11 @@ export class SelectionEditPolicy extends MouseEventEditPolicy
 							let feedbackNode:NodeElement = new NodeElement("SelectionFeedback");
 							let feedbackShape:ShapeElement = new ShapeElement( "FShape", ShapeElementType.STROKE);
 							feedbackNode.getShapeElements().push(feedbackShape);
-							feedbackShape.getShapes().push(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height));
-							feedbackShape.getResources().push( new Color(0,0,0));
+							feedbackShape.shapes.push(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height));
+							feedbackShape.resources.push( new Color(0,0,0));
 							let stroke = new Stroke(3);
 							stroke.lineJoin = LineJoin.ROUND;
-							feedbackShape.getResources().push( stroke);
+							feedbackShape.resources.push( stroke);
 							this.graphicsEditor.addNodeElement2Layer("FEEDBACK", feedbackNode );
 						}
 					}

@@ -3,7 +3,10 @@ import {NodeElement} from "./model/NodeElement";
 import {Bounds} from "./model/geometry/Bounds";
 import "snapsvg-cjs";
 import {Path} from "./model/geometry/Path";
-import {ShapeElementType} from "./model/ShapeElement";
+import {
+	ShapeElementType,
+	ShapeElement
+} from "./model/ShapeElement";
 import {Point} from "./model/geometry/Point";
 import {SegmentType} from "./model/geometry/Segment";
 import {Resource} from "./model/resource/Resource";
@@ -96,7 +99,7 @@ export class SVGGraphicContext extends DrawingEngine
 
 		if (nodeElement == null)
 		{
-			// this.drawGrid();
+			this.drawGrid();
 		}
 
 		if( nodeElement != null )
@@ -198,13 +201,25 @@ export class SVGGraphicContext extends DrawingEngine
 
 	}
 
-	private appyResource(svgElement:Snap.Element, resource: Resource): void
+	private appyResource(svgElement:Snap.Element, resource: Resource, shapeElement:ShapeElement): void
 	{
+		console.log("Attributes: " + svgElement.attr);
 		if (resource instanceof Color)
 		{
 			let color: Color = <Color> resource;
-			svgElement.attr( { stroke:color.toRGBString()});
+			switch( shapeElement.type )
+			{
+				case ShapeElementType.FILL:
+				{
+					svgElement.attr( { fill:color.toRGBString()});
+					break;
+				}
 
+				case ShapeElementType.STROKE:
+				{
+					//svgElement.attr( { stroke:color.toRGBString()});
+				}
+			}
 		}
 		else if (resource instanceof Pattern)
 		{
@@ -283,14 +298,14 @@ export class SVGGraphicContext extends DrawingEngine
 		for (let shapeElement  of nodeElement.getShapeElements())
 		{
 
-			for (let iGeometry of shapeElement.getShapes())
+			for (let iGeometry of shapeElement.shapes)
 			{
 				let path: Path = iGeometry.getPath();
-				let svgElement:Snap.Element = this.drawPath(path, shapeElement.getType());
+				let svgElement:Snap.Element = this.drawPath(path, shapeElement.type);
 
-				for (let resource of  shapeElement.getResources())
+				for (let resource of  shapeElement.resources)
 				{
-					this.appyResource(svgElement,resource);
+					this.appyResource(svgElement,resource,shapeElement);
 				}
 
 			}

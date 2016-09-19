@@ -18,13 +18,27 @@ export enum ShapeElementType
 
 export class ShapeElement extends NamedElement
 {
+	public get shapes(): Array<IGeometry>
+	{
+		return this._shapes;
+	}
+
+	public get resources(): Array<Resource>
+	{
+		return this._resources;
+	}
+
+	public get type(): ShapeElementType
+	{
+		return this._type;
+	}
 	constructor(name:string, type:ShapeElementType, shape?:IGeometry)
 	{
 		super( name );
-		this.type = type;
+		this._type = type;
 		if( shape != null )
 		{
-			this.shapes.push(shape);
+			this._shapes.push(shape);
 		}
 
 	}
@@ -34,26 +48,13 @@ export class ShapeElement extends NamedElement
 		let indentStr:string = Utils.indent(indent, " " );
 	}
 
-	public getShapes():Array<IGeometry>
-	{
-		return this.shapes;
-	}
 
-	public getResources():Array<Resource>
-	{
-		return this.resources;
-	}
-
-	public getType():ShapeElementType
-	{
-		return this.type;
-	}
 
 	public getBounds():Bounds
 	{
 		let bounds:Bounds = null;
 
-		for( let iGeometry of this.shapes )
+		for( let iGeometry of this._shapes )
 		{
 			if( bounds == null )
 			{
@@ -68,9 +69,9 @@ export class ShapeElement extends NamedElement
 		return bounds;
 	}
 
-	private shapes:Array<IGeometry> = new Array<IGeometry>();
+	private _shapes:Array<IGeometry> = new Array<IGeometry>();
 
-	private resources:Array<Resource> = new Array<Resource>();
+	private _resources:Array<Resource> = new Array<Resource>();
 
-	private type:ShapeElementType = ShapeElementType.STROKE;
+	private _type:ShapeElementType = ShapeElementType.STROKE;
 }

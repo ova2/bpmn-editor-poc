@@ -23,7 +23,7 @@ export class Test
         let shapeElement: ShapeElement = new ShapeElement("SHAPE.NODE", ShapeElementType.FILL);
         testElement1.getShapeElements().push(shapeElement);
 
-        shapeElement.getShapes().push(new Rectangle(10, 10, 100, 100));
+        shapeElement.shapes.push(new Rectangle(10, 10, 100, 100));
         let rainBowPattern: Pattern = new Pattern(PatternType.LINEAR, new Point(0, 0), new Point(200, 200));
 
 
@@ -37,20 +37,20 @@ export class Test
 
         let shadow:Shadow = new Shadow( Color.createColor("#AAAAAA"), 10, 10);
 
-        shapeElement.getResources().push( shadow);
+        shapeElement.resources.push( shadow);
 
 
 
-        shapeElement.getResources().push(rainBowPattern);
+        shapeElement.resources.push(rainBowPattern);
 
         shapeElement = new ShapeElement("Shadow Rect",ShapeElementType.STROKE);
         testElement1.getShapeElements().push(shapeElement);
-        shapeElement.getShapes().push(new Rectangle(200, 10, 100, 100));
+        shapeElement.shapes.push(new Rectangle(200, 10, 100, 100));
         shadow = new Shadow( Color.createColor("#AAAAAA"), 6, 6);
 
-        shapeElement.getResources().push( shadow);
-        shapeElement.getResources().push( new Color( 0,0,0));
-        shapeElement.getResources().push( new Stroke(5,LineJoin.ROUND));
+        shapeElement.resources.push( shadow);
+        shapeElement.resources.push( new Color( 0,0,0));
+        shapeElement.resources.push( new Stroke(5,LineJoin.ROUND));
 
 
 
@@ -67,9 +67,9 @@ export class Test
         let shapeElement: ShapeElement = new ShapeElement("SHAPE.NODE", ShapeElementType.STROKE);
         testElement1.getShapeElements().push(shapeElement);
 
-        shapeElement.getShapes().push(new Rectangle(110, 288, 100, 100));
-        shapeElement.getResources().push( Color.createColor("#FF0000"));
-        shapeElement.getResources().push( new Stroke(1));
+        shapeElement.shapes.push( new Rectangle(110, 288, 100, 100));
+        shapeElement.resources.push( <Color> Color.createColor("#FF0000"));
+        shapeElement.resources.push( new Stroke(1));
 
         return rootNodeElement;
     }

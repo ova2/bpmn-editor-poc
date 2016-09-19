@@ -273,15 +273,15 @@
 
                 this._context2D.fillStyle = null;
                 this._context2D.strokeStyle = null;
-                for (let resource of  shapeElement.getResources())
+                for (let resource of  shapeElement.resources)
                 {
                     this.appyResource(resource);
                 }
 
-                for (let iGeometry of shapeElement.getShapes())
+                for (let iGeometry of shapeElement.shapes)
                 {
                     let path: Path = iGeometry.getPath();
-                    this.drawPath(path, shapeElement.getType());
+                    this.drawPath(path, shapeElement.type);
                 }
             }
             this._context2D.restore();
