@@ -25,6 +25,16 @@ export class TestModel
 
 		emfModel.dump();
 
+		// use the DOMParser browser API to convert text to a Document
+		let xmlDocument:Document = new DOMParser().parseFromString(xmlText, "text/xml");
+
+		// get your XML in a text format
+		let xmlText = ``;
+
+		
+
+
+
 
 	}
 
