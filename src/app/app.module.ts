@@ -21,6 +21,11 @@ import {ShapesComponent} from "./panel/shapes/shapes.component";
 import {ToolbarComponent} from "./panel/toolbar/toolbar.component";
 import {GenericEventService} from "./drawing/common/event/generic-event.service";
 
+/**
+ * We set APP_BASE_HREF programmatically and not via <base href="/"> in HTML file due to an issue with SVG's fill="url(#...)"
+ * If you have <base href="/">, the url in the "fill" attribute is not anymore relative to the current page,
+ * but to the URL indicated in the <base> tag. This lead to the issue with gradients - they can not be referenced from SVG's defs.
+ */
 @NgModule({
     imports: [
         BrowserModule,
