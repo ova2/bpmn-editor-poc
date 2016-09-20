@@ -2,6 +2,7 @@ import {NgModule}      from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
 import {HttpModule}    from "@angular/http";
+import {APP_BASE_HREF} from '@angular/common';
 
 // Imports for loading & configuring the in-memory web api
 import {InMemoryWebApiModule} from "angular2-in-memory-web-api";
@@ -40,8 +41,8 @@ import {GenericEventService} from "./drawing/common/event/generic-event.service"
         SvgDrawingComponent,
         CanvasDrawingComponent
     ],
-    providers:
-    [
+    providers: [
+        {provide: APP_BASE_HREF, useValue: "/"},
         GenericEventService
     ],
     bootstrap: [AppComponent]
