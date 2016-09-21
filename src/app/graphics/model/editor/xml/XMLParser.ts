@@ -1,42 +1,130 @@
-import {SAXParser} from "sax";
+import {
+	SAXParser,
+	BaseTag,
+	Tag,
+	QualifiedTag,
+	QualifiedAttribute,
+} from "sax";
+import {EMFModel} from "../EMFModel";
+import {XmlParser} from "@angular/compiler/src/ml_parser/xml_parser";
+import {Parser} from "xml2js";
+
+import {ECore} from "../interfaces/EModelElement";
+import InstanceLoader = ECore.InstanceLoader;
+import Stack from "typescript-collections/dist/lib/Stack";
+import LinkedList from "typescript-collections/dist/lib/LinkedList";
+
+
+
+
+
+
 export class XMLParser
 {
 
-	constructor()
+	constructor( emfModel:EMFModel)
 	{
-		this._saxParser = new SAXParser(true, { trim:true, normalize: true, lowercase: false, xmlns: true, position:true, strictEntities:false } );
+		this.test2();
+		this.test1(emfModel);
+	}
 
-		this._saxParser.onerror = function (e)
+	test2()
+	{
+		let xml2jsParser: Parser = new Parser();
+
+
+
+		xml2jsParser.parseString(this.ECOREMODEL, function (err, result)
 		{
-			console.log("SAX Error: " + e);
+			console.dir(result);
+			console.log('Done');
+
+			let jsonString:string = JSON.stringify(result);
+
+			console.log( jsonString );
+		});
+
+
+	}
+
+	test1( emfModel:EMFModel ): void
+	{
+
+
+		let eContextObject = {};
+		this._saxParser = new SAXParser(true, { trim:true, normalize: true,  xmlns: true, position:true } );
+
+
+		this._saxParser.onerror = function (e:Error)
+		{
+			console.log("SAX Error: " + e.name  + " " + e.message);
 		};
 
-		this._saxParser.ontext = function (t)
+		this._saxParser.ontext = function (text:string)
 		{
-			console.log("SAX Text: " + t);
+			// console.log("SAX Text: " + text);
 		};
 
-		this._saxParser.onopentag = function (node)
+		this._saxParser.onopentag = function (tag: QualifiedTag)
 		{
-			console.log("SAX Open Tag: " + node);
+			console.log("SAX Open '" + tag.name );
+
+			let object = new Object();
+
+			let loader = new InstanceLoader(ECore);
+
+			let testList: LinkedList<string> = new LinkedList<string>();
+			
+			testList.add("1");
+			testList.add("2");
+			testList.add("3");
+			testList.add("4");
+			testList.add("5");
+
+			let index:number = 1;
+			testList.forEach( function (item:string)
+			{
+				console.log("Index: " + index + " " + item);
+				index++;
+			})
+
+			var example = loader.getInstance( tag.local);
+
+			// if( tag instanceof QualifiedTag )
+			{
+				let qualifiedTag:QualifiedTag = <QualifiedTag> tag;
+				console.log( " Local: " + qualifiedTag.local );
+				console.log( " Prefix: " + qualifiedTag.prefix );
+				console.log( " URI: " + qualifiedTag.uri );
+
+				for( let attribute in qualifiedTag.attributes )
+				{
+					let value:QualifiedAttribute = qualifiedTag.attributes[attribute];
+					console.log( " Attribute " + attribute + " " + value.value ) ;
+					example[attribute] = value;
+				}
+			}
+
+			console.log("XXX");
 		};
 
-		this._saxParser.onattribute = function (attr)
+		this._saxParser.onclosetag = function (tagName:string)
 		{
-			console.log("SAX On Attribute: " + attr);
-		};
+			console.log("SAX Close '" + tagName);
+		}
+
 		this._saxParser.onend = function ()
 		{
-			console.log("SAX On End: ");
+			// console.log("SAX On End: ");
 		};
 
-		this._saxParser.write( this.XMLTESTDATA).close();
+		this._saxParser.write( this.ECOREMODEL).close();
 
 	}
 
 	private _saxParser:SAXParser;
 
-	const XMLTESTDATA:string =
+	private XMLTESTDATA:string =
 	`<?xml version="1.0" encoding="UTF-8"?>
 	<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:inspire="http://bpminspire.com/bpmn2/extension/inspire" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/20100524/MODEL-XMI http://www.omg.org/spec/DD/20100524/DI http://www.omg.org/spec/DD/20100524/DI-XMI http://www.omg.org/spec/DD/20100524/DC http://www.omg.org/spec/DD/20100524/DC-XMI http://www.omg.org/spec/BPMN/20100524/DI http://www.omg.org/spec/BPMN/20100524/DI-XMI" id="FE0080003A44EC4AAA298000000000000000" inspire:extensionVersion="2.4" expressionLanguage="http://www.w3.org/1999/XPath" typeLanguage="http://www.w3.org/2001/XMLSchema">
 	<bpmn2:process id="FE0080003A44ECBE264C8000000000000004" name="Wait" isExecutable="true" processType="None">
@@ -128,5 +216,190 @@ export class XMLParser
 </bpmndi:BPMNPlane>
 </bpmndi:BPMNDiagram>
 </bpmn2:definitions>`;
+
+
+	private ECOREMODEL:string =
+	`
+	<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dc"
+    nsURI="http://www.omg.org/spec/DD/20100524/DC-XMI" nsPrefix="dc">
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentRoot">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value=""/>
+      <details key="kind" value="mixed"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mixed" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="elementWildcard"/>
+        <details key="name" value=":mixed"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xMLNSPrefixMap" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
+        transient="true" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xmlns:prefix"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xSISchemaLocation" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
+        transient="true" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xsi:schemaLocation"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bounds" upperBound="-2"
+        eType="#//Bounds" volatile="true" transient="true" derived="true" containment="true"
+        resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Bounds"/>
+        <details key="namespace" value="http://www.omg.org/spec/DD/20100524/DC"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="font" upperBound="-2" eType="#//Font"
+        volatile="true" transient="true" derived="true" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Font"/>
+        <details key="namespace" value="http://www.omg.org/spec/DD/20100524/DC"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="point" upperBound="-2"
+        eType="#//Point" volatile="true" transient="true" derived="true" containment="true"
+        resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Point"/>
+        <details key="namespace" value="http://www.omg.org/spec/DD/20100524/DC"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bounds">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Bounds"/>
+      <details key="kind" value="empty"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="height"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="width"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="0">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="x"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="0">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="y"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Font">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Font"/>
+      <details key="kind" value="empty"/>
+    </eAnnotations>
+    <eOperations name="non_negative_size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="size >=  0"/>
+      </eAnnotations>
+      <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+        </eAnnotations>
+      </eParameters>
+      <eParameters name="context">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The cache of context-specific information."/>
+        </eAnnotations>
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isBold" ordered="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="isBold"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isItalic" ordered="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="isItalic"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isStrikeThrough" ordered="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="isStrikeThrough"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isUnderline" ordered="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="isUnderline"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="name"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" ordered="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="size"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Point">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Point"/>
+      <details key="kind" value="empty"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="0">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="x"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="0">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="y"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>
+	`;
 
 }

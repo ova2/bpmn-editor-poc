@@ -8,13 +8,8 @@ import {
 export class TestModel
 {
 
-
-	constructor()
+	public getBPMN2EMFModel():EMFModel
 	{
-		let emfModelRegestry:EMFModelRegistry = new EMFModelRegistry();
-
-
-
 		let emfModel:EMFModel = null;
 
 		emfModel = new EMFModel("BPMN 2.0");
@@ -23,19 +18,13 @@ export class TestModel
 		emfModel.addPackage( EMFPackageFactory.parseEMFPackage( this.bpmnDIModel ) );
 		emfModel.addPackage( EMFPackageFactory.parseEMFPackage( this.bpmn20Model ) );
 
-		emfModel.dump();
+		// emfModel.dump();
 
-		// use the DOMParser browser API to convert text to a Document
-		let xmlDocument:Document = new DOMParser().parseFromString(xmlText, "text/xml");
+		return emfModel;
 
-		// get your XML in a text format
-		let xmlText = ``;
-
-		
-
-
-
-
+	}
+	constructor()
+	{
 	}
 
 

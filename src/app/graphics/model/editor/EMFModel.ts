@@ -47,6 +47,42 @@ export class EMFModel
 		this._name = modelName;
 	}
 
+
+	public findElement( name:string, prefix:string, uri:string ):void
+	{
+		console.log(`Find Element: ${name} ${prefix}:${uri}`);
+
+		for (let [ key, value ] of Array.from( this._packageMap.entries()))
+		{
+			let packageName:string = key;
+			let iPackage:IPackage = value;
+
+
+			//if( iPackage.nsURI == uri )
+			{
+				console.log("Search in Package: " + iPackage.package + " " + iPackage.nsPrefix + " " + iPackage.nsURI);
+
+				// check for Classes
+				if( iPackage.classes != null )
+				{
+					for( let iClass of iPackage.classes )
+					{
+						// console.log(" Check Class: " + iClass.name);
+						if( iClass.name.toLocaleLowerCase() === name )
+						{
+							console.log("******");
+							console.log( "Found Class: " + iClass.name);
+							console.log("******");
+						}
+					}
+				}
+
+
+
+			}
+		}
+	}
+
 	public addPackage( iPackage:IPackage )
 	{
 		this._packageMap.set(iPackage.package, iPackage);
@@ -145,6 +181,12 @@ export class EMFModel
 	{
 		console.log("Dump of EMF Model " + this._name );
 
+		this._packageMap.forEach( function (value, key)
+		{
+
+				console.log("Key:" + key);
+
+		});
 		for (let [ key, value ] of Array.from( this._packageMap.entries()))
 		{
 			let packageName:string = key;

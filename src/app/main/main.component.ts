@@ -1,5 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {TestModel} from "../graphics/model/editor/Test";
+import {XMLParser} from "../graphics/model/editor/xml/XMLParser";
+
+
 
 @Component({
     selector: "bpm-main",
@@ -11,6 +14,7 @@ export class MainComponent implements OnInit
     {
         console.log("Init MainComponent");
 
-        let testModel:TestModel = new TestModel();
+        // let testModel:TestModel = new TestModel();
+        // let xmlTest:XMLParser = new XMLParser( testModel.getBPMN2EMFModel() );
     }
 }

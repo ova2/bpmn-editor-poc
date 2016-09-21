@@ -31,6 +31,7 @@
             console.log( `Canvas: Id=${canvas.id} Size: ${canvas.width} x ${canvas.height} Client: ${canvas.clientWidth} x ${canvas.clientHeight}` );
 
             // Setup Default Size
+
             canvas.width = canvas.clientWidth;
             canvas.height = canvas.clientHeight;
 

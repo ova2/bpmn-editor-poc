@@ -221,7 +221,8 @@ export class SVGGraphicContext extends DrawingEngine
 			{
 				case ShapeElementType.FILL:
 				{
-					svgElement.attr( { fill:color.toRGBString()});
+					svgElement.attr["fill"] = color.toRGBString();
+					// svgElement.attr( { fill:color.toRGBString()});
 					break;
 				}
 
