@@ -26,24 +26,6 @@ export namespace ECore {
 			return ePackage;
 		}
 
-		private parseEClass(node: Node): EClass {
-			let eClass: EClass = new EClass();
-			eClass.node = node;
-			eClass.name = node.attributes.getNamedItem("name").nodeValue;
-
-			for (let i = 0; i < node.childNodes.length; i++) {
-				let childNode: Node = node.childNodes.item(i);
-				if (childNode.nodeType == Node.ELEMENT_NODE) {
-					this.parseEObject(childNode, eClass);
-				}
-			}
-
-
-			return eClass;
-
-		}
-
-
 
 		private static createEObjectFromFeatureType(featureType: string): EObject {
 			let eObject: EObject = null;
@@ -80,9 +62,10 @@ export namespace ECore {
 			return retNumber;
 		}
 
-		private parseAnnotation( node:Node ): EAnnotation {
+		private parseEAnnotation( node:Node ): EAnnotation {
 			let eAnnotation: EAnnotation = new EAnnotation();
 
+			console.log("Parsing EAnnotation");
 			eAnnotation.node = node;
 			eAnnotation.source = node.attributes.getNamedItem("source").nodeValue;
 
@@ -110,19 +93,51 @@ export namespace ECore {
 				if (childNode.nodeType == Node.ELEMENT_NODE) {
 					if( "eAnnotations" == childNode.localName )
 					{
-						let eAnnotation:EAnnotation = this.parseAnnotation(childNode);
+						let eAnnotation:EAnnotation = this.parseEAnnotation(childNode);
 						eObject["eAnnotations"].push( eAnnotation );
 					}
 				}
 			}
 		}
+		private parseEClassifier( node:Node ): EClassifier
+		{
 
+			let featureType = this.getNodeAttributeAsString("xsi:type", node );
+			console.log("Parsing EClassifier of " + featureType + " Name: " + this.getNodeAttributeAsString("name", node));
+			let eClassifier: EClassifier = <EClassifier> ECoreFactory.createEObjectFromFeatureType( featureType );
+
+			eClassifier.node = node;
+			eClassifier.name = this.getNodeAttributeAsString("name",node);
+
+
+			this.parseEObject( node, eClassifier );
+
+			return eClassifier;
+		}
+
+
+		private parseEClassifiers( eObject:EObject, node:Node)
+		{
+			// check the node children for EAnnotations
+			for (let i = 0; i < node.childNodes.length; i++) {
+				let childNode: Node = node.childNodes.item(i);
+				if (childNode.nodeType == Node.ELEMENT_NODE) {
+					if( "eClassifiers" == childNode.localName )
+					{
+						let eClassifiers:EClassifier = this.parseEClassifier(childNode);
+						eObject["eClassifiers"].push( eClassifiers );
+					}
+				}
+			}
+		}
 
 		private parseEStructuralFeature(node: Node): EStructuralFeature {
 			let featureType = node.attributes.getNamedItem("xsi:type").nodeValue;
+
+			console.log("Parsing EStructuralFeature of " + featureType + " Name: " + this.getNodeAttributeAsString("name", node));
 			let eStructuralFeature: EStructuralFeature = <EStructuralFeature> ECoreFactory.createEObjectFromFeatureType(featureType);
 
-			this.parseEAnnotations(eStructuralFeature, node);
+
 
 			eStructuralFeature.node = node;
 
@@ -147,25 +162,44 @@ export namespace ECore {
 
 			for (let i = 0; i < node.childNodes.length; i++) {
 				let childNode: Node = node.childNodes.item(i);
-				if (childNode.nodeType == Node.ELEMENT_NODE) {
-
+				if (childNode.nodeType == Node.ELEMENT_NODE)
+				{
+					this.parseEObject( childNode, eStructuralFeature );
 				}
 			}
 
 
+
 			return eStructuralFeature;
 		}
+
+		private parseEStructuralFeatures( eObject:EObject, node:Node)
+		{
+			// check the node children for EAnnotations
+			for (let i = 0; i < node.childNodes.length; i++) {
+				let childNode: Node = node.childNodes.item(i);
+				if (childNode.nodeType == Node.ELEMENT_NODE) {
+					if( "eStructuralFeatures" == childNode.localName )
+					{
+						let eStructuralFeature:EStructuralFeature = this.parseEStructuralFeature(childNode);
+						eObject["eStructuralFeatures"].push( eStructuralFeature );
+					}
+				}
+			}
+		}
+
+
+
+
+
 
 
 		private parseEObject(node: Node, eContextObject: EObject)
 		{
 
 			this.parseEAnnotations( eContextObject, node);
-
-			if (node.localName == "eStructuralFeatures") {
-				let eStructuralFeature: EStructuralFeature = this.parseEStructuralFeature(node);
-				eContextObject["eStructuralFeatures"].push(eStructuralFeature);
-			}
+			this.parseEClassifiers( eContextObject, node);
+			this.parseEStructuralFeatures( eContextObject, node);
 		}
 
 
@@ -173,27 +207,13 @@ export namespace ECore {
 			let ePackage: EPackage = new EPackage();
 
 			ePackage.node = node;
-			ePackage.name = node.attributes.getNamedItem("name").nodeValue;
-			ePackage.nsPrefix = node.attributes.getNamedItem("nsPrefix").nodeValue;
-			ePackage.nsURI = node.attributes.getNamedItem("nsURI").nodeValue;
+			ePackage.name = this.getNodeAttributeAsString("name", node );
+			ePackage.nsPrefix = this.getNodeAttributeAsString("nsPrefix", node );
+			ePackage.nsURI = this.getNodeAttributeAsString("nsURI", node );
 
-			for (let i = 0; i < node.childNodes.length; i++) {
-				let childNode: Node = node.childNodes.item(i);
-
-				if (childNode.nodeType == Node.ELEMENT_NODE) {
-					console.log("ChildNode: " + childNode.localName);
-
-					if (childNode.localName == "eClassifiers") {
-						let classifierType: string = childNode.attributes.getNamedItem("xsi:type").nodeValue;
+			this.parseEObject(node, ePackage);
 
 
-						if ("ecore:EClass" == classifierType) {
-							let eClass: EClass = this.parseEClass(childNode);
-							ePackage.eClassifiers.push(eClass);
-						}
-					}
-				}
-			}
 
 			return ePackage;
 		}
@@ -292,68 +312,28 @@ export namespace ECore {
 	}
 
 	export class EObject {
-
 		node: Node;
-
-		dump( indent:number )
-		{
-			console.log(`${Utils.indent(indent, " " )} [.. from EObject] node: ${this.node.localName}`);
-		}
 	}
+
 	export class EModelElement extends EObject {
 		eAnnotations: EAnnotation[] = [];
-
-		dump( indent:number )
-		{
-			console.log(`${Utils.indent(indent, " " )} [.. from EModelElement]`);
-			console.log(`${Utils.indent(indent, " " )} Annotations:`);
-			for( let eAnnotation of this.eAnnotations )
-			{
-				eAnnotation.dump(indent + 1);
-			}
-			super.dump(indent+1);
-		}
-
 	}
 
 	export class EAnnotation extends EModelElement {
 		source: string;
 		details: {key: string,value: string}[] = [];
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EAnnotation:`);
-			super.dump(indent+1);
-		}
-
 	}
 
 	export class ENamedElement extends EModelElement
 	{
 		name: string;
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} [.. from ENamedElement] name=${this.name}`);
-			super.dump(indent+1);
 		}
-
-	}
 
 	export class EClassifier extends ENamedElement {
 		instanceClassName: string;
 		instanceClass: string;
 		defaultValue: string;
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EClassifier:`);
-			super.dump(indent+1);
-		}
-
-	}
+}
 
 	export class EClass extends EClassifier {
 		isAbstract: boolean;
@@ -365,52 +345,20 @@ export namespace ECore {
 		eReferences: EReference[] = [];
 		eContainments: EReference[] = [];
 		eOperations: EOperation[] = [];
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EClass:`);
-			super.dump(indent + 1);
-		}
-
-
 	}
 
 	export class EDataType extends EClassifier {
 		isSerializable: boolean;
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EDataType:`);
-			super.dump(indent + 1);
-		}
-
 	}
 
 	export class EEnum extends EDataType {
 		eEnumLiterals: EEnumLiteral[] = [];
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EEnum:`);
-			super.dump(indent + 1);
-		}
-
 	}
 
 
 	export class EEnumLiteral extends ENamedElement {
 		value: number;
 		literal: string;
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EEnumLiteral:`);
-			super.dump(indent + 1);
-		}
 	}
 
 	export class EPackage extends ENamedElement {
@@ -419,19 +367,6 @@ export namespace ECore {
 		eSubPackages: EPackage[] = [];
 		eSuperPackage: EPackage;
 		eClassifiers: EClassifier[] = [];
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EPackage:`);
-			console.log(`${Utils.indent(indent, " " )} Classifier:`);
-			for( let eClassifiers of this.eClassifiers )
-			{
-				eClassifiers.dump(indent + 1);
-			}
-			super.dump(indent + 1);
-		}
-
 	}
 
 	export class ETypedElement extends ENamedElement {
@@ -443,13 +378,6 @@ export namespace ECore {
 		isRequired: boolean;
 		type: EClassifier;
 		genericType: EGenericType;
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} ETypedElement:`);
-			super.dump(indent + 1);
-		}
 	}
 
 	export class EOperation extends ETypedElement {
@@ -458,23 +386,9 @@ export namespace ECore {
 		eExceptions: EClassifier[] = [];
 		eGenericExceptions: EGenericType[] = [];
 		eTypeParameter: ETypedParameter[] = [];
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EOperation:`);
-			super.dump(indent + 1);
-		}
 	}
 
 	export class EParameter extends ETypedElement {
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EParameter:`);
-			super.dump(indent + 1);
-		}
 	}
 
 	export class EStructuralFeature extends ETypedElement {
@@ -486,28 +400,11 @@ export namespace ECore {
 		isUnsettable: boolean;
 		isDerived: boolean;
 		eContainingClass: EClass;
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EStructuralFeature:`);
-			super.dump(indent + 1);
-		}
-
-
 	}
 
 	export class EAttribute extends EStructuralFeature {
 		isID: boolean;
 		eDataType: EDataType;
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EAttribute:`);
-			super.dump(indent + 1);
-		}
-
 	}
 
 	export class EReference extends EStructuralFeature {
@@ -517,25 +414,11 @@ export namespace ECore {
 		eOpposite: EReference;
 		eReferenceType: EClass;
 		eKeys: EAttribute[] = [];
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EReference:`);
-			super.dump(indent + 1);
-		}
 	}
 
 
 	export class ETypedParameter extends ENamedElement {
 		eBounds: EGenericType[] = [];
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} ETypedParameter:`);
-			super.dump(indent + 1);
-		}
 	}
 
 	export class EGenericType extends  EObject{
@@ -545,13 +428,6 @@ export namespace ECore {
 		eLowerBound: EGenericType
 		eTypeParameter: ETypedParameter[] = [];
 		eClassifier: EClassifier;
-
-		dump( indent:number )
-		{
-
-			console.log(`${Utils.indent(indent, " " )} EGenericType:`);
-			super.dump(indent + 1);
-		}
 	}
 
 	export class InstanceLoader {

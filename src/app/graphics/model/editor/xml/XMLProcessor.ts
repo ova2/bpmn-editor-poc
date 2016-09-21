@@ -20,8 +20,6 @@ export class XMLProcessor
 		let eCoreFactory:ECoreFactory = ECoreFactory.getInstance();
 
 		let ePackage:EPackage = eCoreFactory.parseDocumnet( xmlDocument );
-
-		ePackage.dump(0);
 	}
 
 	dumpNodeAttributes( node:Node, indent:number ):void

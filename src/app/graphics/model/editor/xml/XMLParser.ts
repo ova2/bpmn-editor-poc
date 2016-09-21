@@ -30,7 +30,7 @@ export class XMLParser {
 		let document:Document = xmlParser.parseFromString( this.ECOREMODEL, 'text/xml' );
 
 		let xmlProcessor:XMLProcessor = new XMLProcessor(document);
-		xmlProcessor.dumpNode( document, 0  );
+		// xmlProcessor.dumpNode( document, 0  );
 		let xmlSerializer:XMLSerializer = new XMLSerializer();
 		let xmlString:string = xmlSerializer.serializeToString(document);
 
