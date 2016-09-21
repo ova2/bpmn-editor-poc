@@ -1,131 +1,125 @@
 import {
 	SAXParser,
-	BaseTag,
-	Tag,
 	QualifiedTag,
-	QualifiedAttribute,
+	QualifiedAttribute
 } from "sax";
 import {EMFModel} from "../EMFModel";
-import {XmlParser} from "@angular/compiler/src/ml_parser/xml_parser";
 import {Parser} from "xml2js";
-
 import {ECore} from "../interfaces/EModelElement";
 import InstanceLoader = ECore.InstanceLoader;
-import Stack from "typescript-collections/dist/lib/Stack";
-import LinkedList from "typescript-collections/dist/lib/LinkedList";
+import EObject = ECore.EObject;
+import ECoreFactory = ECore.ECoreFactory;
+import EPackage = ECore.EPackage;
+import {DOMParser, XMLSerializer} from "xmldom";
+import {XMLProcessor} from "./XMLProcessor";
 
 
 
 
+export class XMLParser {
 
-
-export class XMLParser
-{
-
-	constructor( emfModel:EMFModel)
+	constructor(emfModel: EMFModel)
 	{
-		this.test2();
-		this.test1(emfModel);
+		this.test3();
 	}
 
-	test2()
-	{
-		let xml2jsParser: Parser = new Parser();
+	test3(){
+
+		let xmlParser:DOMParser = new DOMParser();
+
+		let document:Document = xmlParser.parseFromString( this.ECOREMODEL, 'text/xml' );
+
+		let xmlProcessor:XMLProcessor = new XMLProcessor(document);
+		xmlProcessor.dumpNode( document, 0  );
+		let xmlSerializer:XMLSerializer = new XMLSerializer();
+		let xmlString:string = xmlSerializer.serializeToString(document);
+
+	}
+
+	test2() {
+		let xml2jsParser: Parser = new Parser({ mergeAttrs:true, explicitArray:false });
 
 
-
-		xml2jsParser.parseString(this.ECOREMODEL, function (err, result)
-		{
+		xml2jsParser.parseString(this.ECOREMODEL, function (err, result) {
 			console.dir(result);
 			console.log('Done');
 
-			let jsonString:string = JSON.stringify(result);
 
-			console.log( jsonString );
+
+
+			let jsonString: string = JSON.stringify(result);
+
+
+			let ePackage:EPackage = <EPackage> result["ecore:EPackage"];
+
+			ePackage = new EPackage();
+
+			ECoreFactory.dumpEObject( ePackage, 0 );
+
+
+
+			console.log("JSON String: " + jsonString);
 		});
 
 
 	}
 
-	test1( emfModel:EMFModel ): void
-	{
+	test1(emfModel: EMFModel): void {
 
 
 		let eContextObject = {};
-		this._saxParser = new SAXParser(true, { trim:true, normalize: true,  xmlns: true, position:true } );
+		this._saxParser = new SAXParser(true, {trim: true, normalize: true, xmlns: true, position: true});
 
 
-		this._saxParser.onerror = function (e:Error)
-		{
-			console.log("SAX Error: " + e.name  + " " + e.message);
+		this._saxParser.onerror = function (e: Error) {
+			console.log("SAX Error: " + e.name + " " + e.message);
 		};
 
-		this._saxParser.ontext = function (text:string)
-		{
+		this._saxParser.ontext = function (text: string) {
 			// console.log("SAX Text: " + text);
 		};
 
-		this._saxParser.onopentag = function (tag: QualifiedTag)
-		{
-			console.log("SAX Open '" + tag.name );
+		this._saxParser.onopentag = function (qualifiedTag: QualifiedTag) {
+			console.log("SAX Open '" + qualifiedTag.name);
 
-			let object = new Object();
+			let eObject: EObject = ECoreFactory.createInstance(qualifiedTag.local);
 
-			let loader = new InstanceLoader(ECore);
+			let eObjectType:string = typeof eObject;
+			console.log("Created EObject of Type: " + eObjectType);
 
-			let testList: LinkedList<string> = new LinkedList<string>();
-			
-			testList.add("1");
-			testList.add("2");
-			testList.add("3");
-			testList.add("4");
-			testList.add("5");
+			console.log(" Local: " + qualifiedTag.local);
+			console.log(" Prefix: " + qualifiedTag.prefix);
+			console.log(" URI: " + qualifiedTag.uri);
 
-			let index:number = 1;
-			testList.forEach( function (item:string)
-			{
-				console.log("Index: " + index + " " + item);
-				index++;
-			})
-
-			var example = loader.getInstance( tag.local);
-
-			// if( tag instanceof QualifiedTag )
-			{
-				let qualifiedTag:QualifiedTag = <QualifiedTag> tag;
-				console.log( " Local: " + qualifiedTag.local );
-				console.log( " Prefix: " + qualifiedTag.prefix );
-				console.log( " URI: " + qualifiedTag.uri );
-
-				for( let attribute in qualifiedTag.attributes )
-				{
-					let value:QualifiedAttribute = qualifiedTag.attributes[attribute];
-					console.log( " Attribute " + attribute + " " + value.value ) ;
-					example[attribute] = value;
+			if (qualifiedTag.attributes != null) {
+				for (let attribute in qualifiedTag.attributes) {
+					let value: QualifiedAttribute = qualifiedTag.attributes[attribute];
+					console.log(" Attribute " + attribute + " " + value.value);
+					eObject[attribute] = value.value;
 				}
 			}
+		}
 
-			console.log("XXX");
-		};
 
-		this._saxParser.onclosetag = function (tagName:string)
-		{
+		this._saxParser.onclosetag = function (tagName: string) {
 			console.log("SAX Close '" + tagName);
 		}
 
-		this._saxParser.onend = function ()
-		{
+		this._saxParser.onend = function () {
 			// console.log("SAX On End: ");
 		};
 
-		this._saxParser.write( this.ECOREMODEL).close();
+		this
+			._saxParser
+			.write(this
+
+				.ECOREMODEL).close();
 
 	}
 
-	private _saxParser:SAXParser;
+	private _saxParser: SAXParser;
 
-	private XMLTESTDATA:string =
-	`<?xml version="1.0" encoding="UTF-8"?>
+	private XMLTESTDATA: string = `<?xml version="1.0" encoding="UTF-8"?>
 	<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:inspire="http://bpminspire.com/bpmn2/extension/inspire" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/20100524/MODEL-XMI http://www.omg.org/spec/DD/20100524/DI http://www.omg.org/spec/DD/20100524/DI-XMI http://www.omg.org/spec/DD/20100524/DC http://www.omg.org/spec/DD/20100524/DC-XMI http://www.omg.org/spec/BPMN/20100524/DI http://www.omg.org/spec/BPMN/20100524/DI-XMI" id="FE0080003A44EC4AAA298000000000000000" inspire:extensionVersion="2.4" expressionLanguage="http://www.w3.org/1999/XPath" typeLanguage="http://www.w3.org/2001/XMLSchema">
 	<bpmn2:process id="FE0080003A44ECBE264C8000000000000004" name="Wait" isExecutable="true" processType="None">
 	<bpmn2:extensionElements>
@@ -218,9 +212,8 @@ export class XMLParser
 </bpmn2:definitions>`;
 
 
-	private ECOREMODEL:string =
-	`
-	<?xml version="1.0" encoding="UTF-8"?>
+	private ECOREMODEL: string = `
+<?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dc"
@@ -400,6 +393,7 @@ export class XMLParser
     </eStructuralFeatures>
   </eClassifiers>
 </ecore:EPackage>
+
 	`;
 
 }
