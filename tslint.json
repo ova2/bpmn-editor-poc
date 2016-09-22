@@ -11,7 +11,10 @@
     ],
     "brace-style": [
       true,
-      "1tbs"
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
     ],
     "no-duplicate-case": true,
     "no-extra-boolean-cast": true,
@@ -40,11 +43,15 @@
     "member-access": false,
     "no-bitwise": false,
     "jsdoc-format": true,
-    "max-line-length": [true, 140],
-    "no-console": [true],
+    "max-line-length": [
+      true,
+      140
+    ],
+    "no-console": [
+      true
+    ],
     "interface-name": false,
-    "no-trailing-whitespace": false,
-
+    "no-trailing-whitespace": true,
     "directive-selector-name": [
       true,
       "camelCase"
@@ -85,6 +92,11 @@
     ],
     "component-class-suffix": true,
     "directive-class-suffix": true,
+    "variable-name": [
+      true,
+      "allow-leading-underscore",
+      "ban-keywords"
+    ],
     "import-destructuring-spacing": false
   }
 }
