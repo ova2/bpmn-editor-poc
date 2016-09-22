@@ -17,9 +17,7 @@ import {EAttribute} from "./EAttribute";
 import {EReference} from "./EReference";
 import {EGenericType} from "./EGenericType";
 import {ETypedParameter} from "./ETypedParameter";
-import {Utils} from "../../../graphics/util/Utils";
-import {EResolvableClassifier} from "./EResolvableClassifier";
-import {EResolveable} from "./EResolvable";
+import {EResolvable} from "./EResolvable";
 
 
 export class ECoreFactory {
@@ -115,7 +113,19 @@ export class ECoreFactory {
 		if( eObject instanceof  EClass)
 		{
 			eObject.isAbstract = this.getNodeAttributeAsBoolean("abstract",node);
-			eObject.isclass = this.getNodeAttributeAsBoolean("class",node);
+			eObject.isClass = this.getNodeAttributeAsBoolean("class",node);
+			eObject.isInterface = this.getNodeAttributeAsBoolean("interface",node);
+
+			let superTypes = this.getNodeAttributeAsString("eSuperTypes", node );
+			if( superTypes != null )
+			{
+				for( let superType of superTypes.split(" "))
+				{
+					let eResolvable:EResolvable = new EResolvable(superType, eObject, "eSuperTypes");
+					eContext.resolvabelElements.push(eResolvable);
+				}
+				console.log(superTypes);
+			}
 		}
 
 		if( eObject instanceof  EDataType)
@@ -149,8 +159,7 @@ export class ECoreFactory {
 			eObject.isMany = this.getNodeAttributeAsBoolean("many", node);
 			eObject.isRequired = this.getNodeAttributeAsBoolean("required", node);
 
-			let eResolvable:EResolveable = new EResolvableClassifier( this.getNodeAttributeAsString("eType",node), eObject, "type");
-			eObject.type = <EClassifier> eResolvable;
+			let eResolvable:EResolvable = new EResolvable( this.getNodeAttributeAsString("eType",node), eObject, "eType");
 			eContext.resolvabelElements.push( eResolvable);
 		}
 
@@ -391,26 +400,4 @@ export class ECoreFactory {
 		return eObject;
 	}
 
-	static dumpEObject(eObject: EObject, indent: number): void {
-		if (eObject instanceof EPackage) {
-			ECoreFactory.dumpEPackage(<EPackage> eObject, indent);
-		}
-		if (eObject instanceof EClass) {
-			ECoreFactory.dumpEClass(<EClass> eObject, indent);
-		}
-	}
-
-
-	static dumpEPackage(ePackage: EPackage, indent: number): void {
-		console.log(Utils.indent(indent, " ") + "EPackage: " + ePackage.name + " " + ePackage.nsPrefix + " " + ePackage.nsURI);
-		if (ePackage.eClassifiers != null) {
-			for (let eClassifier of ePackage.eClassifiers) {
-				ECoreFactory.dumpEObject(eClassifier, indent + 2);
-			}
-		}
-	}
-
-	static dumpEClass(eClass: EClass, indent: number): void {
-		console.log(Utils.indent(indent, " ") + "EClass: " + eClass.name);
-	}
 }

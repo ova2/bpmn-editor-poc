@@ -8,6 +8,6 @@ export class ETypedElement extends ENamedElement {
 	upperBound: number;
 	isMany: boolean;
 	isRequired: boolean;
-	type: EClassifier;
-	genericType: EGenericType;
+	eType: EClassifier;
+	eGenericType: EGenericType;
 }

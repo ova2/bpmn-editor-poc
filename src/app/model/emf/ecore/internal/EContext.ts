@@ -1,6 +1,7 @@
-import {EResolveable} from "../EResolvable";
+
+import {EResolvable} from "../EResolvable";
 export class EContext
 {
-	resolvabelElements:EResolveable[] = [];
+	resolvabelElements:EResolvable[] = [];
 }
 

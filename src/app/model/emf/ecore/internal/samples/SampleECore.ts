@@ -92,7 +92,7 @@ export class SampleECore
 </bpmndi:BPMNDiagram>
 </bpmn2:definitions>`;
 
-static BPMNDIMODEL: string = `<?xml version="1.0" encoding="UTF-8"?>
+	static BPMNDIMODEL: string = `<?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="di"
@@ -5326,4 +5326,16 @@ static BPMNDIMODEL: string = `<?xml version="1.0" encoding="UTF-8"?>
 </ecore:EPackage>
 `;
 
+	static MYMODEL:string =`<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="MyPackage" nsURI="http://harald.luebeck.de" nsPrefix="my">
+  <eClassifiers xsi:type="ecore:EClass" name="IInterface" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="aAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParentClass">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parentAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="otherParentClass"/>
+  <eClassifiers xsi:type="ecore:EClass" name="childClass" eSuperTypes="#//IInterface #//otherParentClass #//ParentClass"/>
+</ecore:EPackage>`;
 }

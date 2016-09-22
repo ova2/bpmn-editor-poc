@@ -6,7 +6,6 @@ import {EAnnotation} from "./EAnnotation";
 import {EClass} from "./EClass";
 import {EAttribute} from "./EAttribute";
 import {EReference} from "./EReference";
-import {EResolvableClassifier} from "./EResolvableClassifier";
 export class EMFUtils
 {
 	private static INSTANCE:EMFUtils = new EMFUtils();
@@ -70,8 +69,7 @@ export class EMFUtils
 
 		if( eObject instanceof EReference)
 		{
-			let eResolvableClassifier:EResolvableClassifier = <EResolvableClassifier> eObject.type;
-			console.log(`${indentString}EReference: ${eObject.name} [${eObject.lowerBound},${eObject.upperBound}] Resolve: ${eResolvableClassifier.getPropertyName()} : ${eResolvableClassifier.getPropertyValue()}`);
+			console.log(`${indentString}EReference: ${eObject.name} [${eObject.lowerBound},${eObject.upperBound}]`);
 		}
 	}
 }

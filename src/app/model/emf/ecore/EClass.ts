@@ -9,8 +9,9 @@ import {EAttribute} from "./EAttribute";
 
 export class EClass extends EClassifier {
 	isAbstract: boolean;
-	isclass: boolean;
-	superTypes: EClass[] = [];
+	isClass: boolean;
+	isInterface: boolean;
+	eSuperTypes: EClass[] = [];
 	eStructuralFeatures: EStructuralFeature[] = [];
 	eGenericSuperTyes: EGenericType[] = [];
 	eAttributes: EAttribute[] = [];
