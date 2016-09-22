@@ -1,12 +1,12 @@
-import {ECore} from "./EModelElement";
-import EObject = ECore.EObject;
-import EPackage = ECore.EPackage;
-import {Utils} from "../../../util/Utils";
-import EAnnotation = ECore.EAnnotation;
-import EClass = ECore.EClass;
-import EAttribute = ECore.EAttribute;
-import EReference = ECore.EReference;
-import EResolvableTypedElement = ECore.EResolvableTypedElement;
+
+import {EObject} from "./EObject";
+import {Utils} from "../../../graphics/util/Utils";
+import {EPackage} from "./EPackage";
+import {EAnnotation} from "./EAnnotation";
+import {EClass} from "./EClass";
+import {EAttribute} from "./EAttribute";
+import {EReference} from "./EReference";
+import {EResolvableClassifier} from "./EResolvableClassifier";
 export class EMFUtils
 {
 	private static INSTANCE:EMFUtils = new EMFUtils();
@@ -24,10 +24,10 @@ export class EMFUtils
 		{
 			console.log(`${indentString}EPackage: ${eObject.name} nsPrefix: ${eObject.nsPrefix} nsURI: ${eObject.nsURI}`);
 
-				for( let eAnnotation of eObject.eAnnotations)
-				{
-					this.dump(eAnnotation, indent + 1);
-				}
+			for( let eAnnotation of eObject.eAnnotations)
+			{
+				this.dump(eAnnotation, indent + 1);
+			}
 
 			for( let eClassifier of eObject.eClassifiers)
 			{
@@ -70,8 +70,9 @@ export class EMFUtils
 
 		if( eObject instanceof EReference)
 		{
-			let dummyType:EResolvableTypedElement = <EResolvableTypedElement> eObject.type;
-			console.log(`${indentString}EReference: ${eObject.name} [${eObject.lowerBound},${eObject.upperBound}] eType: ${dummyType.type}`);
+			let eResolvableClassifier:EResolvableClassifier = <EResolvableClassifier> eObject.type;
+			console.log(`${indentString}EReference: ${eObject.name} [${eObject.lowerBound},${eObject.upperBound}] eType: ${eResolvableClassifier.type}`);
 		}
 	}
 }
+

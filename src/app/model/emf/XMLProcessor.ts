@@ -1,15 +1,13 @@
-import {Utils} from "../../../util/Utils";
-import {ECore} from "../interfaces/EModelElement";
-import ECoreFactory = ECore.ECoreFactory;
-import EPackage = ECore.EPackage;
-import {EMFUtils} from "../interfaces/EMFUtils";
 
-
-
+import {ECoreFactory} from "./ecore/ECoreFactory";
+import {EPackage} from "./ecore/EPackage";
+import {EMFUtils} from "./ecore/EMFUtils";
+import {Utils} from "../../graphics/util/Utils";
 class Context
 {
 
 }
+
 export class XMLProcessor
 {
 

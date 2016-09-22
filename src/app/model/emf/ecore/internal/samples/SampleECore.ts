@@ -1,44 +1,6 @@
-import {
-	SAXParser,
-	QualifiedTag,
-	QualifiedAttribute
-} from "sax";
-import {EMFModel} from "../EMFModel";
-import {Parser} from "xml2js";
-import {ECore} from "../interfaces/EModelElement";
-import InstanceLoader = ECore.InstanceLoader;
-import EObject = ECore.EObject;
-import ECoreFactory = ECore.ECoreFactory;
-import EPackage = ECore.EPackage;
-import {DOMParser, XMLSerializer} from "xmldom";
-import {XMLProcessor} from "./XMLProcessor";
-
-
-
-
-
-export class XMLParser {
-
-	constructor(emfModel: EMFModel)
-	{
-		this.test3();
-	}
-
-	test3(){
-
-		let xmlParser:DOMParser = new DOMParser();
-
-		let document:Document = xmlParser.parseFromString( XMLParser.ECOREBPMN2MODEL, 'text/xml' );
-
-		let xmlProcessor:XMLProcessor = new XMLProcessor(document);
-		// xmlProcessor.dumpNode( document, 0  );
-		let xmlSerializer:XMLSerializer = new XMLSerializer();
-		let xmlString:string = xmlSerializer.serializeToString(document);
-
-	}
-
-
-	private static XMLTESTDATA: string = `<?xml version="1.0" encoding="UTF-8"?>
+export class SampleECore
+{
+	static XMLTESTDATA: string = `<?xml version="1.0" encoding="UTF-8"?>
 	<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:inspire="http://bpminspire.com/bpmn2/extension/inspire" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/20100524/MODEL-XMI http://www.omg.org/spec/DD/20100524/DI http://www.omg.org/spec/DD/20100524/DI-XMI http://www.omg.org/spec/DD/20100524/DC http://www.omg.org/spec/DD/20100524/DC-XMI http://www.omg.org/spec/BPMN/20100524/DI http://www.omg.org/spec/BPMN/20100524/DI-XMI" id="FE0080003A44EC4AAA298000000000000000" inspire:extensionVersion="2.4" expressionLanguage="http://www.w3.org/1999/XPath" typeLanguage="http://www.w3.org/2001/XMLSchema">
 	<bpmn2:process id="FE0080003A44ECBE264C8000000000000004" name="Wait" isExecutable="true" processType="None">
 	<bpmn2:extensionElements>
@@ -131,7 +93,7 @@ export class XMLParser {
 </bpmn2:definitions>`;
 
 
-	private static ECOREDCMODEL: string = `
+	static ECOREDCMODEL: string = `
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -315,7 +277,7 @@ export class XMLParser {
 	`;
 
 	private static ECOREDIMODEL =
-	`<?xml version="1.0" encoding="UTF-8"?>
+		`<?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="di"
@@ -621,7 +583,7 @@ export class XMLParser {
 </ecore:EPackage>`;
 
 
-	private static ECOREBPMN2MODEL = `<?xml version="1.0" encoding="UTF-8"?>
+	static ECOREBPMN2MODEL = `<?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="bpmn2"
