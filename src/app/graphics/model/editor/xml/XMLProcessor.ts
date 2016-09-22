@@ -2,6 +2,7 @@ import {Utils} from "../../../util/Utils";
 import {ECore} from "../interfaces/EModelElement";
 import ECoreFactory = ECore.ECoreFactory;
 import EPackage = ECore.EPackage;
+import {EMFUtils} from "../interfaces/EMFUtils";
 
 
 
@@ -20,6 +21,8 @@ export class XMLProcessor
 		let eCoreFactory:ECoreFactory = ECoreFactory.getInstance();
 
 		let ePackage:EPackage = eCoreFactory.parseDocumnet( xmlDocument );
+
+		EMFUtils.getInstance().dump(ePackage,0);
 	}
 
 	dumpNodeAttributes( node:Node, indent:number ):void

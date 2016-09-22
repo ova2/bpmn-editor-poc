@@ -127,6 +127,8 @@ export namespace ECore {
 				eObject.upperBound = this.getNodeAttributeAsNumber("upperBound", node);
 				eObject.isMany = this.getNodeAttributeAsBoolean("many", node);
 				eObject.isRequired = this.getNodeAttributeAsBoolean("required", node);
+
+				eObject.type = new EResolvableTypedElement( this.getNodeAttributeAsString("eType",node));
 			}
 
 			if( eObject instanceof EOperation)
@@ -177,7 +179,6 @@ export namespace ECore {
 		private parseEAnnotation( node:Node ): EAnnotation {
 			let eAnnotation: EAnnotation = new EAnnotation();
 
-			console.log("Parsing EAnnotation");
 			eAnnotation.node = node;
 			eAnnotation.source = node.attributes.getNamedItem("source").nodeValue;
 
@@ -215,7 +216,7 @@ export namespace ECore {
 		{
 
 			let featureType = this.getNodeAttributeAsString("xsi:type", node );
-			console.log("Parsing EClassifier of " + featureType + " Name: " + this.getNodeAttributeAsString("name", node));
+
 			let eClassifier: EClassifier = <EClassifier> ECoreFactory.createEObjectFromFeatureType( featureType );
 			this.parseAttributes(node,eClassifier);
 			this.parseEObject( node, eClassifier );
@@ -242,7 +243,7 @@ export namespace ECore {
 		private parseEStructuralFeature(node: Node): EStructuralFeature {
 			let featureType = node.attributes.getNamedItem("xsi:type").nodeValue;
 
-			console.log("Parsing EStructuralFeature of " + featureType + " Name: " + this.getNodeAttributeAsString("name", node));
+
 			let eStructuralFeature: EStructuralFeature = <EStructuralFeature> ECoreFactory.createEObjectFromFeatureType(featureType);
 
 			this.parseAttributes(node,eStructuralFeature);
@@ -508,6 +509,16 @@ export namespace ECore {
 		eLowerBound: EGenericType
 		eTypeParameter: ETypedParameter[] = [];
 		eClassifier: EClassifier;
+	}
+
+	export class EResolvableTypedElement extends EClassifier
+	{
+		constructor( type:string )
+		{
+			super();
+			this.type = type;
+		}
+		type:string;
 	}
 
 	export class InstanceLoader {
