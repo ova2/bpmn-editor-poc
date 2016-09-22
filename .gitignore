@@ -11,5 +11,4 @@ target/
 node_modules/
 typings/
 dist/
-test/
 config/webpack-records.json
