@@ -71,7 +71,7 @@ export class EMFUtils
 		if( eObject instanceof EReference)
 		{
 			let eResolvableClassifier:EResolvableClassifier = <EResolvableClassifier> eObject.type;
-			console.log(`${indentString}EReference: ${eObject.name} [${eObject.lowerBound},${eObject.upperBound}] eType: ${eResolvableClassifier.type}`);
+			console.log(`${indentString}EReference: ${eObject.name} [${eObject.lowerBound},${eObject.upperBound}] Resolve: ${eResolvableClassifier.getPropertyName()} : ${eResolvableClassifier.getPropertyValue()}`);
 		}
 	}
 }

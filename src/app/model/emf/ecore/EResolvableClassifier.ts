@@ -2,17 +2,32 @@ import {EClassifier} from "./EClassifier";
 import {EResolveable} from "./EResolvable";
 import {EObject} from "./EObject";
 
-export class EResolvableClassifier extends EClassifier implements EResolveable
-{
-	constructor( type:string, eObject:EObject, propertyName:string )
-	{
-		super();
-		this.type = type;
-		this.eObject = eObject;
-		this.propertyName = propertyName;
+export class EResolvableClassifier extends EClassifier implements EResolveable {
+	public getPropertyValue(): string {
+		return this._propertyValue;
 	}
 
-	type:string;
-	eObject:EObject;
-	propertyName:string;
+
+	public getEObject(): EObject {
+		return this._eObject;
+	}
+
+
+	public getPropertyName(): string {
+		return this._propertyName;
+	}
+
+	constructor(propertyValue: string, eObject: EObject, propertyName: string) {
+		super();
+
+		this._propertyValue = propertyValue;
+		this._eObject = eObject;
+		this._propertyName = propertyName;
+	}
+
+	private _propertyValue: string;
+	private _eObject: EObject;
+	private _propertyName: string;
+
+
 }

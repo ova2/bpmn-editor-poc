@@ -19,6 +19,7 @@ import {EGenericType} from "./EGenericType";
 import {ETypedParameter} from "./ETypedParameter";
 import {Utils} from "../../../graphics/util/Utils";
 import {EResolvableClassifier} from "./EResolvableClassifier";
+import {EResolveable} from "./EResolvable";
 
 
 export class ECoreFactory {
@@ -29,10 +30,9 @@ export class ECoreFactory {
 		return ECoreFactory.INSTANCE;
 	}
 
-	parseDocumnet(document: Document): EPackage {
+	parseDocumnet(document: Document, eContext:EContext): EPackage {
 		let ePackage: EPackage = null;
 
-		let eContext:EContext = new EContext();
 		for (let i = 0; i < document.childNodes.length; i++) {
 			let node: Node = document.childNodes.item(i);
 
@@ -41,6 +41,9 @@ export class ECoreFactory {
 				ePackage = this.parseEPackage(node, eContext );
 			}
 		}
+
+
+
 		return ePackage;
 	}
 
@@ -146,8 +149,9 @@ export class ECoreFactory {
 			eObject.isMany = this.getNodeAttributeAsBoolean("many", node);
 			eObject.isRequired = this.getNodeAttributeAsBoolean("required", node);
 
-			eObject.type = new EResolvableClassifier( this.getNodeAttributeAsString("eType",node), eObject, "type");
-			eContext.resolvabelElements.push(eObject.type);
+			let eResolvable:EResolveable = new EResolvableClassifier( this.getNodeAttributeAsString("eType",node), eObject, "type");
+			eObject.type = <EClassifier> eResolvable;
+			eContext.resolvabelElements.push( eResolvable);
 		}
 
 		if( eObject instanceof EOperation)
