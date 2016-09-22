@@ -3,7 +3,7 @@ var webpackMerge = require('webpack-merge');
 var validate = require('webpack-validator');
 var commonConfig = require('./webpack.common.js');
 
-var DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
+// var DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 
@@ -18,7 +18,9 @@ module.exports = validate(webpackMerge(commonConfig, {
         failOnHint: true
     },
     plugins: [
+        /** Causes error https://github.com/webpack/webpack/issues/2644 ==> temp. deactivated
         new DedupePlugin(),
+        */
         new ExtractTextPlugin({
             filename: "[name].[chunkhash].css"
         }),
