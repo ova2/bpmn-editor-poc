@@ -62,6 +62,118 @@ export namespace ECore {
 			return retNumber;
 		}
 
+		private parseAttributes( node:Node, eObject:EObject )
+		{
+			if( eObject instanceof EObject)
+			{
+				eObject.node = node;
+			}
+
+			if( eObject instanceof EModelElement )
+			{
+				// has no Attributes
+			}
+
+			if( eObject instanceof EAnnotation)
+			{
+				eObject.source = this.getNodeAttributeAsString("source", node);
+			}
+
+			if( eObject instanceof ENamedElement )
+			{
+				eObject.name = this.getNodeAttributeAsString("name", node);
+			}
+
+			if( eObject instanceof EClassifier)
+			{
+				eObject.instanceClass = this.getNodeAttributeAsString("instanceclassname", node);
+				eObject.instanceClass = this.getNodeAttributeAsString("instanceclass", node);
+				eObject.defaultValue = this.getNodeAttributeAsString("defaultValue", node);
+			}
+
+			if( eObject instanceof  EClass)
+			{
+				eObject.isAbstract = this.getNodeAttributeAsBoolean("abstract",node);
+				eObject.isclass = this.getNodeAttributeAsBoolean("class",node);
+			}
+
+			if( eObject instanceof  EDataType)
+			{
+				eObject.isSerializable = this.getNodeAttributeAsBoolean("serializable",node);
+			}
+
+			if( eObject instanceof EEnum)
+			{
+				// has no Attributes
+			}
+
+			if( eObject instanceof EEnumLiteral)
+			{
+				eObject.literal = this.getNodeAttributeAsString("literal",node);
+				eObject.value = this.getNodeAttributeAsNumber("value", node);
+			}
+
+			if( eObject instanceof EPackage)
+			{
+				eObject.nsURI = this.getNodeAttributeAsString("nsURI",node);
+				eObject.nsPrefix = this.getNodeAttributeAsString("nsPrefix",node);
+			}
+
+			if( eObject instanceof ETypedElement)
+			{
+				eObject.isOrdered = this.getNodeAttributeAsBoolean("ordered", node);
+				eObject.isUnique = this.getNodeAttributeAsBoolean("unique", node);
+				eObject.lowerBound = this.getNodeAttributeAsNumber("lowerBound", node);
+				eObject.upperBound = this.getNodeAttributeAsNumber("upperBound", node);
+				eObject.isMany = this.getNodeAttributeAsBoolean("many", node);
+				eObject.isRequired = this.getNodeAttributeAsBoolean("required", node);
+			}
+
+			if( eObject instanceof EOperation)
+			{
+				// has no Attributes
+			}
+
+			if( eObject instanceof EParameter)
+			{
+				// has no Attributes
+			}
+
+			if( eObject instanceof EStructuralFeature)
+			{
+				eObject.isTransient = this.getNodeAttributeAsBoolean("transient", node);
+				eObject.isVolatile = this.getNodeAttributeAsBoolean("volatile", node);
+				eObject.isChangeable = this.getNodeAttributeAsBoolean("changeable", node);
+				//eStructuralFeature.defaultLiteral = this.getNodeAttributeAsBoolean("ordered", node);
+				//eStructuralFeature.defaultValue = this.getNodeAttributeAsBoolean("ordered", node);
+				eObject.isUnsettable = this.getNodeAttributeAsBoolean("unsettable", node);
+				eObject.isDerived = this.getNodeAttributeAsBoolean("derived", node);
+				// eStructuralFeature.eContainingClass: EClass;
+			}
+
+			if( eObject instanceof EAttribute)
+			{
+				eObject.isID = this.getNodeAttributeAsBoolean("ID",node);
+			}
+
+			if( eObject instanceof  EReference)
+			{
+				eObject.isContainment = this.getNodeAttributeAsBoolean("containment", node);
+				eObject.isContainer = this.getNodeAttributeAsBoolean("container", node);
+				eObject.isResolveProxies = this.getNodeAttributeAsBoolean("resolveproxies", node);
+			}
+
+			if( eObject instanceof ETypedParameter)
+			{
+
+			}
+
+			if( eObject instanceof EGenericType)
+			{
+
+			}
+		}
+
 		private parseEAnnotation( node:Node ): EAnnotation {
 			let eAnnotation: EAnnotation = new EAnnotation();
 
@@ -105,11 +217,7 @@ export namespace ECore {
 			let featureType = this.getNodeAttributeAsString("xsi:type", node );
 			console.log("Parsing EClassifier of " + featureType + " Name: " + this.getNodeAttributeAsString("name", node));
 			let eClassifier: EClassifier = <EClassifier> ECoreFactory.createEObjectFromFeatureType( featureType );
-
-			eClassifier.node = node;
-			eClassifier.name = this.getNodeAttributeAsString("name",node);
-
-
+			this.parseAttributes(node,eClassifier);
 			this.parseEObject( node, eClassifier );
 
 			return eClassifier;
@@ -137,28 +245,7 @@ export namespace ECore {
 			console.log("Parsing EStructuralFeature of " + featureType + " Name: " + this.getNodeAttributeAsString("name", node));
 			let eStructuralFeature: EStructuralFeature = <EStructuralFeature> ECoreFactory.createEObjectFromFeatureType(featureType);
 
-
-
-			eStructuralFeature.node = node;
-
-
-			eStructuralFeature.name = this.getNodeAttributeAsString("name", node);
-			eStructuralFeature.isOrdered = this.getNodeAttributeAsBoolean("ordered", node);
-			eStructuralFeature.isUnique = this.getNodeAttributeAsBoolean("unique", node);
-			eStructuralFeature.lowerBound = this.getNodeAttributeAsNumber("lowerBound", node);
-			eStructuralFeature.upperBound = this.getNodeAttributeAsNumber("upperBound", node);
-			eStructuralFeature.isMany = this.getNodeAttributeAsBoolean("many", node);
-			eStructuralFeature.isRequired = this.getNodeAttributeAsBoolean("required", node);
-			// eStructuralFeature.type: EClassifier;
-			// eStructuralFeature.genericType: EGenericType;
-			eStructuralFeature.isTransient = this.getNodeAttributeAsBoolean("transient", node);
-			eStructuralFeature.isVolatile = this.getNodeAttributeAsBoolean("volatile", node);
-			eStructuralFeature.isChangeable = this.getNodeAttributeAsBoolean("changeable", node);
-			//eStructuralFeature.defaultLiteral = this.getNodeAttributeAsBoolean("ordered", node);
-			//eStructuralFeature.defaultValue = this.getNodeAttributeAsBoolean("ordered", node);
-			eStructuralFeature.isUnsettable = this.getNodeAttributeAsBoolean("unsettable", node);
-			eStructuralFeature.isDerived = this.getNodeAttributeAsBoolean("derived", node);
-			// eStructuralFeature.eContainingClass: EClass;
+			this.parseAttributes(node,eStructuralFeature);
 
 			for (let i = 0; i < node.childNodes.length; i++) {
 				let childNode: Node = node.childNodes.item(i);
@@ -167,8 +254,6 @@ export namespace ECore {
 					this.parseEObject( childNode, eStructuralFeature );
 				}
 			}
-
-
 
 			return eStructuralFeature;
 		}
@@ -187,11 +272,6 @@ export namespace ECore {
 				}
 			}
 		}
-
-
-
-
-
 
 
 		private parseEObject(node: Node, eContextObject: EObject)
@@ -233,7 +313,7 @@ export namespace ECore {
 				}
 
 				case "EREFERENCE": {
-					eObject = new EAttribute();
+					eObject = new EReference();
 					break;
 				}
 
