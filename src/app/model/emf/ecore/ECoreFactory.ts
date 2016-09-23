@@ -108,6 +108,7 @@ export class ECoreFactory {
 			eObject.instanceClass = this.getNodeAttributeAsString("instanceclassname", node);
 			eObject.instanceClass = this.getNodeAttributeAsString("instanceclass", node);
 			eObject.defaultValue = this.getNodeAttributeAsString("defaultValue", node);
+			eObject.ePackage = eContext.ePackage;
 		}
 
 		if( eObject instanceof  EClass)
@@ -323,6 +324,8 @@ export class ECoreFactory {
 		ePackage.name = this.getNodeAttributeAsString("name", node );
 		ePackage.nsPrefix = this.getNodeAttributeAsString("nsPrefix", node );
 		ePackage.nsURI = this.getNodeAttributeAsString("nsURI", node );
+
+		eContext.ePackage = ePackage;
 
 		this.parseEObject(node, ePackage, eContext);
 

@@ -9,10 +9,15 @@ import {Utils} from "../../graphics/util/Utils";
 import {EClassifier} from "./ecore/EClassifier";
 import {EClass} from "./ecore/EClass";
 import {EDataType} from "./ecore/EDataType";
+import {EResolvable} from "./ecore/EResolvable";
+import {EObject} from "./ecore/EObject";
 
 
 export class EMFRegistry
 {
+	// Array of EResolvable Elements
+	private eResolvables: EResolvable[] = [];
+
 	private constructor()
 	{
 		this.addEMFModelFromXML(ECoreModel.MODEL);
@@ -40,9 +45,69 @@ export class EMFRegistry
 			console.log("Resolve: " + eResolvabale.getPropertyName() + " as " + eResolvabale.getPropertyValue());
 		}
 
+		this.resolve(eContext.resolvabelElements, ePackage);
+
 		EMFUtils.getInstance().dump(ePackage, 0);
 	}
 
+	private resolve(eResolvables: EResolvable[], ePackage: EPackage)
+	{
+		for (let eResolvable of eResolvables)
+		{
+			if (this.eResolvables.indexOf(eResolvable) == -1)
+			{
+				this.eResolvables.push(eResolvable);
+			}
+		}
+
+		// Resolve Stuff
+		for (let eResolvable of this.eResolvables)
+		{
+			if (eResolvable.getEObject() instanceof EClassifier)
+			{
+				let eClassifier: EClassifier = <EClassifier> eResolvable.getEObject();
+				console.log(`Resolve Classifier ${eClassifier.name} ${eResolvable.getPropertyName()} ${eResolvable.getPropertyValue()}`);
+				this.findReference(eResolvable.getPropertyValue(), ePackage);
+			}
+
+			if (eResolvable.getEObject() instanceof EClass)
+			{
+				let eClass: EClass = <EClass> eResolvable.getEObject();
+				console.log(`Resolve Classifier ${eClass.name} ${eResolvable.getPropertyName()} ${eResolvable.getPropertyValue()}`);
+				this.findReference(eResolvable.getPropertyValue(), ePackage);
+			}
+		}
+	}
+
+	private findReference(referenceString: string, localPackage?: EPackage): EObject
+	{
+		let eObject: EObject = null;
+		let packageURLParts = referenceString.split("#");
+
+		let packageURL = null;
+		let searchPath = null;
+
+		packageURL = packageURLParts[0];
+		searchPath = packageURLParts[1];
+
+		if (localPackage == null && packageURL != null)
+		{
+			localPackage = this.getPackage(packageURL);
+		}
+
+		if (localPackage != null)
+		{
+			console.log("Have to Search: " + searchPath + " in " + packageURL);
+		}
+
+
+		return eObject;
+	}
+
+	getPackage(packageURL: string): EPackage
+	{
+		return this.ePackageMap.getValue(packageURL);
+	}
 
 	showAllPackages(indent: number)
 	{
