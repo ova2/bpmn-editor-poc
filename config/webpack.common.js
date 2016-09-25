@@ -24,7 +24,7 @@ module.exports = {
     },
     context: path.join(ROOT, 'src'),
     // See https://medium.com/webpack/harnessing-the-power-of-webpack-2cd0e20ff1bf#.q9do1u54o
-    recordsPath: path.join(ROOT, 'webpack', 'webpack-records.json'),
+    recordsPath: path.join(ROOT, 'config', 'webpack-records.json'),
     resolve: {
         extensions: ['', '.ts', '.js', '.json']
     },
