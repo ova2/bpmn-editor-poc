@@ -2,7 +2,7 @@
 
 module.exports = config => {
     config.set({
-        autoWatch: true,
+        autoWatch: false,
         browsers: ['Chrome', 'PhantomJS'],
         /*
          * list of files to load in the browser is built via spec-bundle.js
@@ -21,7 +21,7 @@ module.exports = config => {
         preprocessors: {
             'spec-bundle.js': ['webpack', 'sourcemap']
         },
-        reporters: ['dots'],
+        reporters: ['mocha'],
         singleRun: true,
         webpack: require('./webpack.test.js'),
         webpackServer: {
