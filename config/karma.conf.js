@@ -1,9 +1,18 @@
-'use strict';
+var grep = require('karma-webpack-grep');
+var webpackConfig = require('./webpack.test.js');
 
 module.exports = config => {
+    webpackConfig.plugins = (webpackConfig.plugins || []).concat(grep({
+        grep: config.grep,
+        basePath: '.',
+        testContext: '../src/'
+    }));
+    
     config.set({
         autoWatch: false,
+        singleRun: true,
         browsers: ['Chrome', 'PhantomJS'],
+        basePath: '.',
         /*
          * list of files to load in the browser is built via spec-bundle.js
          */
@@ -11,7 +20,10 @@ module.exports = config => {
             'spec-bundle.js'
         ],
         exclude: [],
-        frameworks: ['jasmine'],
+        frameworks: [
+            'jasmine',
+            'jasmine-matchers'
+        ],
         logLevel: config.LOG_INFO,
         phantomJsLauncher: {
             exitOnResourceError: true
@@ -22,8 +34,7 @@ module.exports = config => {
             'spec-bundle.js': ['webpack', 'sourcemap']
         },
         reporters: ['mocha'],
-        singleRun: true,
-        webpack: require('./webpack.test.js'),
+        webpack: webpackConfig,
         webpackServer: {
             noInfo: true
         }

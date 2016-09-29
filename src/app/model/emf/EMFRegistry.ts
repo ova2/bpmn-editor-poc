@@ -25,7 +25,8 @@ export class EMFRegistry
 
 	static getInstance(): EMFRegistry
 	{
-		return EMFRegistry.INSTANCE;
+	    // lazy instantiation
+		return EMFRegistry.INSTANCE || new EMFRegistry();
 	}
 
 
@@ -157,5 +158,5 @@ export class EMFRegistry
 
 	private ePackageMap: Dictionary < string, EPackage > = new Dictionary<string,EPackage>();
 
-	private static INSTANCE: EMFRegistry = new EMFRegistry();
+	private static INSTANCE: EMFRegistry;
 }

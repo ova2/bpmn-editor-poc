@@ -15,14 +15,14 @@ require('rxjs/Rx');
 const coreTesting = require('@angular/core/testing');
 const browserTesting = require('@angular/platform-browser-dynamic/testing');
 
-Error.stackTraceLimit = Infinity;
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 3000;
-
 coreTesting.TestBed.resetTestEnvironment();
 coreTesting.TestBed.initTestEnvironment(
     browserTesting.BrowserDynamicTestingModule,
     browserTesting.platformBrowserDynamicTesting()
 );
+
+Error.stackTraceLimit = Infinity;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 3000;
 
 const context = require.context('../src/', true, /\.spec\.ts$/);
 
